@@ -147,7 +147,12 @@ public class WebSPUtil {
 			driver.findElement(By.xpath("//div[@class='cashed_mark']/div/a")).click();//确认
 		}
 		flag = true;
-		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Map<String, String> actual = UserDaoImpl.getAdvance(ksd);
 		Map<String, String> expect = CaseUtil.getAdvance(ksd);
 		Assert.assertEquals(actual, expect);

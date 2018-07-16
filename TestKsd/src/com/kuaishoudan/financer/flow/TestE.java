@@ -495,12 +495,7 @@ public class TestE {
 			WebSPUtil.login2(driver, email, ksd.getSp_password());
 
 			//WebSPUtil.clickItem(driver, itename);
-			/*try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+			/**/
 
 			driver.manage().timeouts().implicitlyWait(23, TimeUnit.SECONDS);		
 			driver.findElement(By.linkText("客户")).click();
@@ -527,12 +522,18 @@ public class TestE {
 				driver.findElement(By.xpath("//div[@class='cashed_mark']/div/a")).click();//确认
 		 
 			flag = true;
-			
-			WebUtil.logout(driver);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			Assert.assertEquals( UserDaoImpl.getRisk_type(ksd), 5);
 			Map<String, String> actual = UserDaoImpl.getAdvance(ksd);
 			Map<String, String> expect = CaseUtil.getAdvance(ksd);
 			Assert.assertEquals(actual, expect);
+			WebUtil.logout(driver);
 			return flag;
 		}
 }

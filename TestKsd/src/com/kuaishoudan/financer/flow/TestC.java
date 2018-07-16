@@ -523,12 +523,18 @@ public class TestC {
 	 
 		flag = true;
 	
-		WebUtil.logout(driver);
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Assert.assertEquals( UserDaoImpl.getRisk_type(ksd), 3);
 		Map<String, String> actual = UserDaoImpl.getAdvance(ksd);
 		Map<String, String> expect = CaseUtil.getAdvance(ksd);
 		Assert.assertEquals(actual, expect);
+		WebUtil.logout(driver);
 		return flag;
 
 	}
