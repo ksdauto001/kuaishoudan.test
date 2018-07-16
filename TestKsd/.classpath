@@ -13,7 +13,7 @@
 	<classpathentry kind="lib" path="libs/spring-context-5.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="libs/testng-5.12.jar"/>
 	<classpathentry kind="lib" path="libs/velocity-dep-1.4.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/selenium-server-standalone-3.13.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
