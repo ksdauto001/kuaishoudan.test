@@ -46,7 +46,7 @@ public class TestUser {
 	String flow="";
 	DBUtil db=null;
 	/**
-	 *  不出合同-审批流12222
+	 *  不出合同-审批流 
 	 * 
 	 * @param args
 	 * @throws Exception
