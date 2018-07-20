@@ -1123,7 +1123,7 @@ public class AppUtil {
 						By.id("com.kuaishoudan.financer:id/btn_ok")).click();
 				// 两种证上传——确定按钮
 
-				Thread.sleep( count2 * 1000);
+				Thread.sleep( 1000+count2 * 1000);
 			}
 	 
 			df(driver,
