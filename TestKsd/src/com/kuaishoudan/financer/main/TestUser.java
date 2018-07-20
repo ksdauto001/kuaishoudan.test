@@ -12,8 +12,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -46,7 +50,7 @@ public class TestUser {
 	String flow="";
 	DBUtil db=null;
 	/**
-	 *  不出合同-审批流 
+	 *  不出合同-审批流1222266
 	 * 
 	 * @param args
 	 * @throws Exception
@@ -160,11 +164,26 @@ public class TestUser {
 						e.printStackTrace();
 					}
 					  db=new 	DBUtil();
+						  ksd = RandomValue.getRandom();
 			    }
 			    
 			   }).start();
+		
 			driver = AppUtil.getDriver();
-	
+			 Thread.sleep(1000);
+			 try{
+				 new WebDriverWait(driver, 3).until(new ExpectedCondition<WebElement>(){ 
+					 @Override 
+					 public WebElement apply(WebDriver d) { 
+						 return d.findElement(By.id("com.kuaishoudan.financer:id/toolbar_title")); 
+			
+					 } 				
+				 }) ;
+			 			
+			 } catch(org.openqa.selenium.TimeoutException e){
+		
+				 AppUtil.login(driver, devicename, ksd);
+			 }
 
 	}
 
@@ -365,6 +384,12 @@ public class TestUser {
 				itename = ep.getUsername();
 				break;
 			}
+			/*if (ep.getDesc().equals("BD经理")) {
+				System.out.println(ep.getUsername());
+				WebSPUtil.testSP3(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
+				itename = ep.getUsername();
+				break;
+			}*/
 
 		}
 		for (Employee ep : employes) {
@@ -378,7 +403,7 @@ public class TestUser {
 				WebSPUtil.testSP3(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
 				itename = ep.getUsername();
 				break;
-			}
+			} 
 		}
 
 	}
@@ -426,10 +451,10 @@ public class TestUser {
 	}
 
 	public void tearDown() throws Exception {
-		db.closeConn1();
+	
 		driver.quit();
 		webdriver.quit();
-	
+		db.closeConn1();
 		
 		
 	}

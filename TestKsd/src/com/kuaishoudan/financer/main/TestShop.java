@@ -3,6 +3,7 @@ package com.kuaishoudan.financer.main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidElement;
@@ -14,6 +15,9 @@ import com.kuaishoudan.financer.bean.ShopBeanCase;
 import com.kuaishoudan.financer.selenium.AppSPUtil;
 import com.kuaishoudan.financer.selenium.AppShopUtil;
 import com.kuaishoudan.financer.selenium.AppUtil;
+import com.kuaishoudan.financer.selenium.WebShop;
+import com.kuaishoudan.financer.selenium.WebUtil;
+import com.kuaishoudan.financer.util.DBUtil;
 import com.kuaishoudan.financer.util.RandomValue;
 
 public class TestShop {
@@ -24,49 +28,59 @@ public class TestShop {
 	
 	public AppiumDriver<AndroidElement> driver;
 	String devicename = "";
-
-//	KSDCase ksd = null;
+	WebDriver webdriver;
+	  KSDCase ksd = null;
+	DBUtil db=null;
 	ShopBeanCase  shopBeanCase=new ShopBeanCase();
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
        
 		TestShop ct = new TestShop();
 		ct.setUp();// app启动
-//		ct.setUp2();// web启动
+		int count = ct.getCount();
 		
-		for (int i = 0; i < 1; i++) {
-
+		for (int i = 0; i < count; i++) {
+	 
 		   ct.appCreateShop();
-		   ct.goback();
+		 ct.webCreateShop();
 		}
-		/*
-		 * ct.sp4(); ct.sp5(); ct.sp6();
-		 */
+	 
 		ct.tearDown();
 
 	}
 	
 	public void setUp() throws IOException, InterruptedException {
-		driver = AppUtil.getDriver();
-		Process process = Runtime.getRuntime().exec("adb devices");
-		process.waitFor();
-		InputStreamReader isr = new InputStreamReader(process.getInputStream());
-		BufferedReader br = new BufferedReader(isr);
-		br.readLine();
-		devicename = br.readLine().replaceAll("device", "").trim();
-		System.out.println(devicename);
-		Thread.sleep(5000);
+		 new Thread(new Runnable(){
+			    @Override
+			    public void run() {
+			    	try {
+						webdriver = WebUtil.getDriver();
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					  db=new 	DBUtil();
+		
+			    }
+			    
+			   }).start();
+			driver = AppUtil.getDriver();
+			
 	}
 	
 	public void tearDown() throws Exception {
 		driver.quit();
-		//webdriver.quit();
+		webdriver.quit();
 	}
-	
+	public int getCount(){
+		return WebUtil.getCount();
+	}
 	//创建商户，备案信息
 	public void appCreateShop(){
 		try {
+			  ksd = RandomValue.getRandom();
 		    shopBeanCase = RandomValue.getShop();
+		    ksd.setSssh(shopBeanCase.getShopname());
 			shopBeanCase = AppShopUtil.createShop(driver, shopBeanCase,devicename);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +88,18 @@ public class TestShop {
 //		System.out.println("##===" + shopBeanCase.getStatue());
 	}
 	
-	
+	//审批
+		public void webCreateShop(){
+			try {
+				WebUtil.login(webdriver, ksd );// 登录
+				WebShop.test2(webdriver, ksd);
+				WebUtil.logout(webdriver)	;
+				
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+//			System.out.println("##===" + shopBeanCase.getStatue());
+		}
 	public void goback() {
 		AppUtil.goBack0(driver);
 	}

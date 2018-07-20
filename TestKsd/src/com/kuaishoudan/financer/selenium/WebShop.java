@@ -33,11 +33,11 @@ public class WebShop {
 			KSDCase ksd = RandomValue.getRandom();
 			ksd.setProduct("中安金控-那家店");// qita22-其他22产品1
 			ksd.setCartype(1);
-			ksd.setSssh("快快");
+			ksd.setSssh("霍家");
 			WebUtil.login(driver, ksd );// 登录
-			test1(driver, ksd);
+			test2(driver, ksd);
 			// WebUtil.logout(driver);
-			Thread.sleep(25000);
+			Thread.sleep(55000);
 			driver.quit();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -96,7 +96,20 @@ public class WebShop {
 		// driver.findElement(By.linkText("保存")).click();
 
 	}
+	public static void test2(WebDriver driver, KSDCase ksd)
+			throws MalformedURLException, InterruptedException {
+		WebUtil.df(driver,By.linkText("商户")).click();
 
+		clickShop(driver,ksd);
+		int height = driver.manage().window().getSize().height;
+		((JavascriptExecutor) driver).executeScript("window.scrollTo(0,"
+				+ (height + 400) + ")"); // 向下滑动
+		 
+		WebUtil.df(driver, By.linkText("通过")).click();
+		WebUtil.df(driver, By.name("remark")).sendKeys("同意");
+		WebUtil.df(driver,By.linkText("确认")).click();
+		WebUtil.df(driver,By.linkText("确定")).click();
+	}
 	public static void clickShop(WebDriver driver, KSDCase ksd){
 		List<WebElement> names = driver.findElements(By
 				.xpath("//div[@class='merchants_list']/table/tbody/tr/td"));
