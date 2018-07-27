@@ -125,165 +125,174 @@ public class RandomValue {
 	/**
 	 * 进件资料
 	 */
-	public static List getImg1(){
-		int[][] arr={{0,1,2,3,4,5},{10,11,12,13,14,15},{100,101,103,104,113,128,129},{112,120,121,130},{106,117,119,124,131,132,133,134 }
-		,{102,110,114,118,125,126,127,135},{136,137,138,139,140,141,142},{105,111,122,143,144,145,146,147,148,149}};
-		List<Integer> list=new ArrayList<Integer>();
+	public static List getImg1() {
+		int[][] arr = { { 0, 1, 2, 3, 4, 5 }, { 10, 11, 12, 13, 14, 15 },
+				{ 100, 101, 103, 104, 113, 128, 129 }, { 112, 120, 121, 130 },
+				{ 106, 117, 119, 124, 131, 132, 133, 134 },
+				{ 102, 110, 114, 118, 125, 126, 127, 135 },
+				{ 136, 137, 138, 139, 140, 141, 142 },
+				{ 105, 111, 122, 143, 144, 145, 146, 147, 148, 149 } };
+		List<Integer> list = new ArrayList<Integer>();
 
-		for(int p=0;p<arr.length;p++){
-			int length=(int)(Math.random()*arr[p].length);
-			
-			//System.out.println(length);
-			if(p>1&&length==0){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i)==(p-2)){
-						list.remove(i);//如果没有勾选选项，删除必选
+		for (int p = 0; p < arr.length; p++) {
+			int length = (int) (Math.random() * arr[p].length);
+
+			// System.out.println(length);
+			if (p > 1 && length == 0) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) == (p - 2)) {
+						list.remove(i);// 如果没有勾选选项，删除必选
 					}
 				}
 			}
-			
-			for(int k=0;k<length;k++){
-				int index=(int)(Math.random()*arr[p].length);
-		
+
+			for (int k = 0; k < length; k++) {
+				int index = (int) (Math.random() * arr[p].length);
+
 				int rand = arr[p][index];
-				
+
 				list.add(rand);
-				//System.out.println(rand);
-				
-				
+				// System.out.println(rand);
+
 			}
-			list=	removeDuplicate(list);
-			if(p>1){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i)==(p+8)){
-					//list.remove(i);//如果没有勾选选项，删除必选
-						for(int q=0;q<arr[p].length;q++){
-							 
-							list.add( arr[p][q]);
+			list = removeDuplicate(list);
+			if (p > 1) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) == (p + 8)) {
+						// list.remove(i);//如果没有勾选选项，删除必选
+						for (int q = 0; q < arr[p].length; q++) {
+
+							list.add(arr[p][q]);
 						}
-			//		System.out.println("增加"+Arrays.toString(arr[p]));
+						// System.out.println("增加"+Arrays.toString(arr[p]));
 					}
 				}
 			}
-			
+
 		}
-		list=	removeDuplicate(list);//删除重复
-		
-	/*	for(int type:list)
-			System.out.println("==="+type);*/
-		
-	//	System.out.println("##="+list.size());
+		list = removeDuplicate(list);// 删除重复
+
+		/*
+		 * for(int type:list) System.out.println("==="+type);
+		 */
+
+		// System.out.println("##="+list.size());
 		return list;
 	}
+
 	/**
 	 * 请款资料
 	 */
-	public static List getImg2(){
-		int [][] arr={{0,1,2,3,4,5,6},{10,11,12,13,14,15,16},{1001},{1039,1054},{1002}
-		,{1055,1056,1057,1058},{1059,1060},{1061,1062,1063},{1064}};
-		List<Integer> list=new ArrayList<Integer>();
+	public static List getImg2() {
+		int[][] arr = { { 0, 1, 2, 3, 4, 5, 6 },
+				{ 10, 11, 12, 13, 14, 15, 16 }, { 1001 }, { 1039, 1054 },
+				{ 1002 }, { 1055, 1056, 1057, 1058 }, { 1059, 1060 },
+				{ 1061, 1062, 1063 }, { 1064 } };
+		List<Integer> list = new ArrayList<Integer>();
 
-
-		for(int p=0;p<arr.length;p++){
-			int length=(int)(Math.random()*arr[p].length);
-			//System.out.println(length);
-			if(p>1&&length==0){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i)==(p-2)){
-						System.out.println("删除"+list.get(i));
+		for (int p = 0; p < arr.length; p++) {
+			int length = (int) (Math.random() * arr[p].length);
+			// System.out.println(length);
+			if (p > 1 && length == 0) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) == (p - 2)) {
+						System.out.println("删除" + list.get(i));
 						list.remove(i);
 					}
 				}
 			}
-			for(int k=0;k<length;k++){
-				int index=(int)(Math.random()*arr[p].length);
-		
+			for (int k = 0; k < length; k++) {
+				int index = (int) (Math.random() * arr[p].length);
+
 				int rand = arr[p][index];
-		
+
 				list.add(rand);
-				//System.out.println(rand);
+				// System.out.println(rand);
 			}
-			list=	removeDuplicate(list);
-			if(p>1){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i)==(p+8)){
-					//list.remove(i);//如果没有勾选选项，删除必选
-						for(int q=0;q<arr[p].length;q++){
-							 
-							list.add( arr[p][q]);
+			list = removeDuplicate(list);
+			if (p > 1) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) == (p + 8)) {
+						// list.remove(i);//如果没有勾选选项，删除必选
+						for (int q = 0; q < arr[p].length; q++) {
+
+							list.add(arr[p][q]);
 						}
-					System.out.println("增加"+Arrays.toString(arr[p]));
+						System.out.println("增加" + Arrays.toString(arr[p]));
 					}
 				}
 			}
 		}
-		list=	removeDuplicate(list);
-	/*	for(int type:list)
-			System.out.println("==="+type);
-		
-		System.out.println("##"+list.size());*/
+		list = removeDuplicate(list);
+		/*
+		 * for(int type:list) System.out.println("==="+type);
+		 * 
+		 * System.out.println("##"+list.size());
+		 */
 		return list;
 	}
-	
+
 	/**
 	 * 归档资料
 	 */
-	public static List getImg3(){
-		int [][] arr={{0,1,2,3,4,5},{10,11,12,13,14,15},{3001,3002},{3003},{3004,3005,3006}
-		,{3000,3007},{3008},{3009,3010}};
-		List<Integer> list=new ArrayList<Integer>();
+	public static List getImg3() {
+		int[][] arr = { { 0, 1, 2, 3, 4, 5 }, { 10, 11, 12, 13, 14, 15 },
+				{ 3001, 3002 }, { 3003 }, { 3004, 3005, 3006 }, { 3000, 3007 },
+				{ 3008 }, { 3009, 3010 } };
+		List<Integer> list = new ArrayList<Integer>();
 
+		for (int p = 0; p < arr.length; p++) {
+			int length = (int) (Math.random() * arr[p].length);
 
-		for(int p=0;p<arr.length;p++){
-			int length=(int)(Math.random()*arr[p].length);
-	
-			if(p>1&&length==0){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i)==(p-2)){
-					//	System.out.println("删除"+list.get(i));
+			if (p > 1 && length == 0) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) == (p - 2)) {
+						// System.out.println("删除"+list.get(i));
 						list.remove(i);
 					}
 				}
 			}
-			for(int k=0;k<length;k++){
-				int index=(int)(Math.random()*arr[p].length);
-				
-				
+			for (int k = 0; k < length; k++) {
+				int index = (int) (Math.random() * arr[p].length);
+
 				int rand = arr[p][index];
-		
+
 				list.add(rand);
-	
+
 			}
-			list=	removeDuplicate(list);
-			if(p>1){
-				for(int i=0;i<list.size();i++){
-					if(list.get(i)==(p+8)){
-					//list.remove(i);//如果没有勾选选项，删除必选
-						for(int q=0;q<arr[p].length;q++){
-							 
-							list.add( arr[p][q]);
+			list = removeDuplicate(list);
+			if (p > 1) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) == (p + 8)) {
+						// list.remove(i);//如果没有勾选选项，删除必选
+						for (int q = 0; q < arr[p].length; q++) {
+
+							list.add(arr[p][q]);
 						}
-					System.out.println("增加"+Arrays.toString(arr[p]));
+						System.out.println("增加" + Arrays.toString(arr[p]));
 					}
 				}
 			}
 		}
-		list=	removeDuplicate(list);
-	/*	for(int type:list)
-			System.out.println("==="+type);
-		System.out.println("##"+list.size());*/
+		list = removeDuplicate(list);
+		/*
+		 * for(int type:list) System.out.println("==="+type);
+		 * System.out.println("##"+list.size());
+		 */
 		return list;
 	}
-	public   static   List  removeDuplicate(List list)  {       
-		  for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )  {       
-		      for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )  {       
-		           if  (list.get(j).equals(list.get(i)))  {       
-		              list.remove(j);       
-		            }        
-		        }        
-		      }        
-		    return list;       
+
+	public static List removeDuplicate(List list) {
+		for (int i = 0; i < list.size() - 1; i++) {
+			for (int j = list.size() - 1; j > i; j--) {
+				if (list.get(j).equals(list.get(i))) {
+					list.remove(j);
+				}
+			}
 		}
+		return list;
+	}
+
 	/**
 	 * 数据封装
 	 * 
@@ -298,97 +307,95 @@ public class RandomValue {
 		map.put("email", getEmail(6, 9));
 		return map;
 	}
-	
-	public static ShopBeanCase getShop() {
-		ShopBeanCase shopBeanCase=new ShopBeanCase();
-		
-	
-		int businessType = (int) (Math.random() * 3);
-		int storeType=(int)(Math.random() * 4);
-		int paymentMethod=(int)(Math.random() * 2);
-		int companyNumber=(int)(1+Math.random() * 9999);
-		int mouthSale=(int)(Math.random() * 5);
-		int dutyType=(int)(Math.random() * 4);
-	int	documentType=(int)(Math.random() * 2);
-	int accountType=(int)(Math.random() * 4);
-	IdCardGenerator g = new IdCardGenerator();
-		
 
-	
-		int businessLicense=(int)(Math.random() * 999999999);
+	public static ShopBeanCase getShop() {
+		ShopBeanCase shopBeanCase = new ShopBeanCase();
+
+		int businessType = (int) (Math.random() * 3);
+		int storeType = (int) (Math.random() * 4);
+		int paymentMethod = (int) (Math.random() * 2);
+		int companyNumber = (int) (1 + Math.random() * 9999);
+		int mouthSale = (int) (Math.random() * 5);
+		int dutyType = (int) (Math.random() * 4);
+		int documentType = (int) (Math.random() * 2);
+		int accountType = (int) (Math.random() * 4);
+		IdCardGenerator g = new IdCardGenerator();
+
+		int businessLicense = (int) (Math.random() * 999999999);
 		shopBeanCase.setShopname(getChineseName());// 商户名称
-		shopBeanCase.setBusinessType(businessType);//业务类型
-		shopBeanCase.setStoreType(storeType);//店面类型
+		shopBeanCase.setBusinessType(businessType);// 业务类型
+		shopBeanCase.setStoreType(storeType);// 店面类型
 		shopBeanCase.setShopAddress("address");// 地址
-		shopBeanCase.setPaymentMethod(paymentMethod);//款项结算方式
-		shopBeanCase.setCompanyNumber(companyNumber+"");//公司人数
+		shopBeanCase.setPaymentMethod(paymentMethod);// 款项结算方式
+		shopBeanCase.setCompanyNumber(companyNumber + "");// 公司人数
 		shopBeanCase.setMouthSale(mouthSale);// 月销量
-		shopBeanCase.setName(getChineseName());//姓名
+		shopBeanCase.setName(getChineseName());// 姓名
 		shopBeanCase.setPhone(getTel());// 手机
-		shopBeanCase.setDuty(dutyType);//职务
+		shopBeanCase.setDuty(dutyType);// 职务
 		shopBeanCase.setDocumentType(documentType);
-		if (documentType==0) {
-			//营业执照
-			shopBeanCase.setBusinessLicense(""+ businessLicense);
-		}else if (documentType==1) {
-			//身份证
+		if (documentType == 0) {
+			// 营业执照
+			shopBeanCase.setBusinessLicense("" + businessLicense);
+		} else if (documentType == 1) {
+			// 身份证
 			shopBeanCase.setBusinessLicense(g.generate());
 		}
-		shopBeanCase.setAccountType(accountType);//账户类型
+		shopBeanCase.setAccountType(accountType);// 账户类型
 		shopBeanCase.setAccountName("zhanghao");// 账户名
 		shopBeanCase.setOpeningBack("kaihuhang");// 开户行
 		shopBeanCase.setBackCardNumber("62103432111");// 银行卡号
 		shopBeanCase.setImageCount(1);
-		System.out.println("商户名称"+shopBeanCase.getShopname());
+		System.out.println("商户名称" + shopBeanCase.getShopname());
 		return shopBeanCase;
 	}
-	public static RequestPayout getMoney(){
-		RequestPayout requestPayout=new RequestPayout();
+
+	public static RequestPayout getMoney() {
+		RequestPayout requestPayout = new RequestPayout();
 		DecimalFormat df2 = new DecimalFormat("#.00");
-		String money = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money1 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money2 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money3 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money4 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money5 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money6 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money7 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money8 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
-		String money9 = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 99)) + "").toString();
+		String money = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money1 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money2 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money3 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money4 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money5 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money6 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money7 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money8 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
+		String money9 = new BigDecimal(Double.parseDouble(df2.format(1 + Math
+				.random() * 99)) + "").toString();
 		int registration_party = (int) (Math.random() * 3);
 		int mortgage_party = (int) (Math.random() * 3);
-		int idtype1 = (int) (1+Math.random() * 20);
-		int idtype2= (int) (1+Math.random() * 10);
-		int idtype3= (int) (1+Math.random() * 10);
+		int idtype1 = (int) (1 + Math.random() * 20);
+		int idtype2 = (int) (1 + Math.random() * 10);
+		int idtype3 = (int) (1 + Math.random() * 10);
 		requestPayout.setFinancing_back_point(money);
 		requestPayout.setGps_back_point(money1);
 		requestPayout.setInsurance_back_point(money2);
 		requestPayout.setService_back_point(money3);
 		requestPayout.setMortgage_free(money4);
 		requestPayout.setSign_free(money5);
-		requestPayout.setSheepishly1(idtype1);//上牌抵押地省份
-		requestPayout.setSheepishly2(idtype2);//上牌抵押地市区
-		requestPayout.setSheepishly3(idtype3);//上牌抵押地区域
-		requestPayout.setRegistration_party(registration_party);//上牌地
-		requestPayout.setMortgage_party(mortgage_party);//抵押方
-		requestPayout.setGps_installation(money6);//gps安装费
-		requestPayout.setInterest_on_pre(money7);//前置利息
-		requestPayout.setRefund(money8);//退款
-		requestPayout.setThe_car_loan(money9);//车价贷款	
+		requestPayout.setSheepishly1(idtype1);// 上牌抵押地省份
+		requestPayout.setSheepishly2(idtype2);// 上牌抵押地市区
+		requestPayout.setSheepishly3(idtype3);// 上牌抵押地区域
+		requestPayout.setRegistration_party(registration_party);// 上牌地
+		requestPayout.setMortgage_party(mortgage_party);// 抵押方
+		requestPayout.setGps_installation(money6);// gps安装费
+		requestPayout.setInterest_on_pre(money7);// 前置利息
+		requestPayout.setRefund(money8);// 退款
+		requestPayout.setThe_car_loan(money9);// 车价贷款
 		requestPayout.setType((int) (Math.random() * 3));
-		
+
 		return requestPayout;
-		
+
 	}
 
 	public static void main(String[] args) {
@@ -398,39 +405,45 @@ public class RandomValue {
 		 */
 
 		//
-	
-	new RandomValue().test();
-		 
+
+		new RandomValue().test();
+
 		/*
 		 * Map map=new HashMap();; map.put("a", "a");
 		 */
 		// map.put("b", "b");
 
-/*		String ff = "长安新生 标准贷";
-		System.out.println(ff.split(" ")[0]);*/
-	}
-	public void test(){
-			 KSDCase ksd=null;
-	
-			 ksd = getRandom();
-
-			  System.out.println(ksd.getIdentitytype()+"名称" + ksd.getUsername() + "手机" + ksd.getPhone()
-						+ "身份证号" + ksd.getIdentitynum() + "身份类型"
-						+ ksd.getIdentitytype() + "军官" + ksd.getJgid() + "企业个人"
-						+ ksd.getQygr() + "车类型" + ksd.getCartype() + "车品牌"
-						+ ksd.getCarbrand() + "车系" + ksd.getCarseries() + "车价格"
-						+ ksd.getCarprice() + "贷款价格" + ksd.getSqdk() + "融资期限"
-						+ ksd.getHkqs() + "\n  " + ksd.getPurchase_tax() + "\n "
-						+ ksd.getInsurance() + " \n" + ksd.getGps_charge() + "\n "
-						+ ksd.getService_charge() + "," + ksd.getRegisttype() + ","
-						+ ksd.getPledge()+","+ksd.getLoginname());
-	
-	
+		/*
+		 * String ff = "长安新生 标准贷"; System.out.println(ff.split(" ")[0]);
+		 */
 	}
 
-	
-	public static KSDCase getRandom(AppiumDriver<AndroidElement> driver) {
-		System.out.println("@");
+	public void test() {
+		KSDCase ksd = null;
+
+		ksd = getRandom();
+
+		System.out.println(ksd.getIdentitytype() + "名称" + ksd.getUsername()
+				+ "手机" + ksd.getPhone() + "身份证号" + ksd.getIdentitynum()
+				+ "身份类型" + ksd.getIdentitytype() + "军官" + ksd.getJgid()
+				+ "企业个人" + ksd.getQygr() + "车类型" + ksd.getCartype() + "车品牌"
+				+ ksd.getCarbrand() + "车系" + ksd.getCarseries() + "车价格"
+				+ ksd.getCarprice() + "贷款价格" + ksd.getSqdk() + "融资期限"
+				+ ksd.getHkqs() + "\n  " + ksd.getPurchase_tax() + "\n "
+				+ ksd.getInsurance() + " \n" + ksd.getGps_charge() + "\n "
+				+ ksd.getService_charge() + "," + ksd.getRegisttype() + ","
+				+ ksd.getPledge() + "," + ksd.getLoginname());
+
+	}
+
+	public static KSDCase getKSD(AppiumDriver<AndroidElement> driver) {
+		KSDCase ksd = UserDaoImpl.getCustomer_KSD(AppUtil.getIndexname(driver));
+		return ksd;
+
+	}
+
+	public static KSDCase getRandom(AppiumDriver<AndroidElement> driver,
+			KSDCase ksd) {
 
 		IdCardGenerator g = new IdCardGenerator();
 		Calendar calendar = Calendar.getInstance();
@@ -439,9 +452,10 @@ public class RandomValue {
 		double sqdk = 0;
 		double cljg = 0;
 		DecimalFormat df2 = new DecimalFormat("#.00");
-		DecimalFormat df = new DecimalFormat("#.000");
+		DecimalFormat df = new DecimalFormat("#.0000");
 		for (int i = 0; i < 200; i++) {
-			sqdk = Double.parseDouble(df.format(2 + Math.random() * 28));//97 Math.random()
+			sqdk = Double.parseDouble(df.format(2 + Math.random() * 28));// 97
+																			// Math.random()
 																			// *
 																			// 97));//
 																			// 997
@@ -453,7 +467,7 @@ public class RandomValue {
 		}
 
 		String purchase_tax = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();//999999999
+				.format(1 + Math.random() * 999999)) + "").toString();// 999999999
 		String gps_charge = new BigDecimal(Double.parseDouble(df2
 				.format(1 + Math.random() * 9999999)) + "").toString();
 		String insurance = new BigDecimal(Double.parseDouble(df2
@@ -461,43 +475,48 @@ public class RandomValue {
 		String service_charge = new BigDecimal(Double.parseDouble(df2
 				.format(1 + Math.random() * 999999)) + "").toString();
 
-		int idtype = (int) (1+Math.random() * 2);
-		int loantype = (int) (1+Math.random() * 2);
+		int idtype = (int) (1 + Math.random() * 2);
+		int loantype = (int) (1 + Math.random() * 2);
 		int cartype = (int) (Math.random() * 2);
 		int rzqx = (int) (Math.random() * 4);
 		int registtype = (int) (1 + Math.random() * 3);
 		int pledge = (int) (1 + Math.random() * 3);
-		KSDCase ksd =  UserDaoImpl.getCustomer_KSD(AppUtil.getIndexname(driver));
-		RequestPayout	rp = RandomValue.getMoney();
+
+		RequestPayout rp = RandomValue.getMoney();
 		ksd.setQygr(loantype);// 2企业1个人
 		ksd.setBusinessname("qiyemc");// 企业名称
 		ksd.setBusinessid("yingyezzh");// 企业执照
-		ksd.setCartype(cartype);// 0新车  1 二手车
+		ksd.setCartype(cartype);// 0新车 1 二手车
 		ksd.setCarbrand("奥迪汽车-奥迪");
 		ksd.setCarseries("A1");
-		ksd.setCarprice(cljg);// 车辆价格
-		ksd.setSqdk(sqdk);// 申请贷款
-		ksd.setHkqs(rzqx);// 融资期限
+		ksd.setCarprice(cljg);// 车辆价格cljg
+		ksd.setSqdk(sqdk);// 申请贷款sqdk
+		ksd.setHkqs(rzqx);// 融资期限rzqx
 		ksd.setRemark("beizhu");// 备注
-		ksd.setPurchase_tax(purchase_tax);// 购置税
-		ksd.setGps_charge(gps_charge);// gps费
-		ksd.setInsurance(insurance);// 保险费
-		ksd.setService_charge(service_charge);// 服务费
+		ksd.setPurchase_tax("" + 0);// 购置税purchase_tax
+		ksd.setGps_charge("" + 0);// gps费gps_charge
+		ksd.setInsurance("" + 0);// 保险费insurance
+		ksd.setService_charge("" + 0);// 服务费service_charge
 		ksd.setVin(g.getItemID(17));// 车架号
 		ksd.setRegisttype(registtype);// 上牌方1,2,3
 		ksd.setPledge(pledge);// 抵押方1,2,3
-		//ksd.setSssh("几节");//所属商户
+		// ksd.setSssh("几节");//所属商户
 		ksd.setImgcount(4);// 图片数量1,2,3
-		ksd.setLoginname("刘浩亮");//登录邮箱
-		ksd.setLoginemail("liuhl@jizhicar.com");
-		ksd.setPwd("!123456");
+		/*
+		 * ksd.setLoginname("刘浩亮");//登录邮箱
+		 * ksd.setLoginemail("liuhl@jizhicar.com"); ksd.setPwd("!123456");
+		 */
 		ksd.setRequestpayout(rp);
-		ksd.setDeduction(	 Double.parseDouble(df2.format(2 + Math.random() * 100)));
-		ksd.setZjtr( (int) (Math.random() * 4));
+		ksd.setDeduction(Double.parseDouble(df2.format(2 + Math.random() * 100)));
+		ksd.setZjtr((int) (Math.random() * 4));
+
+		ksd = getPropeties(ksd);
+
 		return ksd;
 	}
+
 	public static KSDCase getRandom() {
- 
+
 		IdCardGenerator g = new IdCardGenerator();
 		Calendar calendar = Calendar.getInstance();
 		String jgnum = calendar.getTime().getTime()
@@ -505,9 +524,10 @@ public class RandomValue {
 		double sqdk = 0;
 		double cljg = 0;
 		DecimalFormat df2 = new DecimalFormat("#.00");
-		DecimalFormat df = new DecimalFormat("#.000");
+		DecimalFormat df = new DecimalFormat("#.0000");
 		for (int i = 0; i < 200; i++) {
-			sqdk = Double.parseDouble(df.format(2 + Math.random() * 28));//97 Math.random()
+			sqdk = Double.parseDouble(df.format(2 + Math.random() * 28));// 97
+																			// Math.random()
 																			// *
 																			// 97));//
 																			// 997
@@ -519,7 +539,7 @@ public class RandomValue {
 		}
 
 		String purchase_tax = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();//999999999
+				.format(1 + Math.random() * 999999)) + "").toString();// 999999999
 		String gps_charge = new BigDecimal(Double.parseDouble(df2
 				.format(1 + Math.random() * 9999999)) + "").toString();
 		String insurance = new BigDecimal(Double.parseDouble(df2
@@ -527,68 +547,80 @@ public class RandomValue {
 		String service_charge = new BigDecimal(Double.parseDouble(df2
 				.format(1 + Math.random() * 999999)) + "").toString();
 
-		int idtype = (int) (1+Math.random() * 2);
-		int loantype = (int) (1+Math.random() * 2);
+		int idtype = (int) (1 + Math.random() * 2);
+		int loantype = (int) (1 + Math.random() * 2);
 		int cartype = (int) (Math.random() * 2);
 		int rzqx = (int) (Math.random() * 4);
 		int registtype = (int) (1 + Math.random() * 3);
 		int pledge = (int) (1 + Math.random() * 3);
-		
+
 		KSDCase ksd = new KSDCase();
-		RequestPayout	rp = RandomValue.getMoney();
+		RequestPayout rp = RandomValue.getMoney();
 		ksd.setUsername(getChineseName());// 名字
 		ksd.setPhone(getTel());// 手机号
 		ksd.setAddress("address2");// 地址
 		ksd.setIdentitynum(g.generate());// 身份证
 		ksd.setJgid(jgnum);// 军官id
-		ksd.setIdentitytype(idtype);// 军官类型  1身份证 2军官证
+		ksd.setIdentitytype(idtype);// 军官类型 1身份证 2军官证
 		ksd.setQygr(loantype);// 2企业1个人
 		ksd.setBusinessname("qiyemc");// 企业名称
 		ksd.setBusinessid("yingyezzh");// 企业执照
-		ksd.setCartype(cartype);// 0新车  1 二手车cartype
-		ksd.setCarbrand("北京汽车-北京");//奥迪汽车-奥迪
-		ksd.setCarseries("BJ20");//A1
-		ksd.setCarprice(28.859 );// 车辆价格cljg 45
-		ksd.setSqdk( 17.363);// 申请贷款sqdk 25
-		ksd.setHkqs(2);// 融资期限rzqx0
+		ksd.setCartype(cartype);// 0新车 1 二手车cartype
+		ksd.setCarbrand("北京汽车-北京");// 奥迪汽车-奥迪
+		ksd.setCarseries("BJ20");// A1
+		ksd.setCarprice(cljg);// 车辆价格cljg 45
+		ksd.setSqdk(sqdk);// 申请贷款sqdk 25
+		ksd.setHkqs(rzqx);// 融资期限rzqx0
 		ksd.setRemark("beizhu");// 备注
-		ksd.setPurchase_tax(""+0);// 购置税purchase_tax
-		ksd.setGps_charge(""+0);// gps费gps_charge
-		ksd.setInsurance(""+0);// 保险费insurance
-		ksd.setService_charge(""+0);// 服务费service_charge
+		ksd.setPurchase_tax("" + 0);// 购置税purchase_tax
+		ksd.setGps_charge("" + 0);// gps费gps_charge
+		ksd.setInsurance("" + 0);// 保险费insurance
+		ksd.setService_charge("" + 0);// 服务费service_charge
 		ksd.setVin(g.getItemID(17));// 车架号
 		ksd.setRegisttype(registtype);// 上牌方1,2,3
 		ksd.setPledge(pledge);// 抵押方1,2,3
-		//ksd.setSssh("几节");//所属商户
+		// ksd.setSssh("几节");//所属商户
 		ksd.setImgcount(4);// 图片数量1,2,3
-	/*	ksd.setLoginname("王轩");//登录邮箱 
-		ksd.setLoginemail("wangx@jizhicar.com");
-		ksd.setPwd("!123456");*/
+		/*
+		 * ksd.setLoginname(" ");//登录邮箱 ksd.setLoginemail(" ");
+		 * ksd.setPwd("!123456");
+		 */
 		ksd.setRequestpayout(rp);
-		ksd.setDeduction(	 Double.parseDouble(df2.format(2 + Math.random() * 100)));
+		ksd.setDeduction(Double.parseDouble(df2.format(2 + Math.random() * 100)));
 		ksd.setZjtr((int) (Math.random() * 4));
-		
+
+		ksd = getPropeties(ksd);
+
+		return ksd;
+	}
+
+	public static KSDCase getPropeties(KSDCase ksd) {
 		Properties properties = new Properties();
 		try {
-        	InputStreamReader in=new InputStreamReader(WebUtil.class.getResourceAsStream("ksd.properties"), "UTF-8");
-        	properties.load(in);
-        	ksd.setLoginname(properties.getProperty("login_name"));
-        	ksd.setLoginemail(properties.getProperty("login_email")) ;
-        	ksd.setPwd(properties.getProperty("login_password"));
-        	ksd.setFlow(properties.getProperty("flow"));
-        	ksd.setSp_password(properties.getProperty("sp_password"));
-        	ksd.setSssh_id(Integer.parseInt(properties.getProperty("supplier")));
-        	ksd.setSssh_account(Integer.parseInt(properties.getProperty("supp_account")));
-        	String cartype00=properties.getProperty("cartype");
-        	if(!cartype00.equals("")){
-        		System.out.println("--------------------");
-        		ksd.setCartype(Integer.parseInt(cartype00));
-        	}
-        	ksd.setInit_statue(Integer.parseInt(properties.getProperty("init_statue")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-	
+			InputStreamReader in = new InputStreamReader(
+					WebUtil.class.getResourceAsStream("ksd.properties"),
+					"UTF-8");
+			properties.load(in);
+			ksd.setLoginname(properties.getProperty("login_name"));
+			ksd.setLoginemail(properties.getProperty("login_email"));
+			ksd.setPwd(properties.getProperty("login_password"));
+			ksd.setFlow(properties.getProperty("flow"));
+			ksd.setSp_password(properties.getProperty("sp_password"));
+			ksd.setSssh_id(Integer.parseInt(properties.getProperty("supplier")));
+			ksd.setSssh_account(Integer.parseInt(properties
+					.getProperty("supp_account")));
+			ksd.setCommit_type(Integer.parseInt(properties
+					.getProperty("commit_type")));
+			String cartype00 = properties.getProperty("cartype");
+			if (!cartype00.equals("")) {
+				System.out.println("--------------------");
+				ksd.setCartype(Integer.parseInt(cartype00));
+			}
+			ksd.setInit_statue(Integer.parseInt(properties
+					.getProperty("init_statue")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return ksd;
 	}
 }

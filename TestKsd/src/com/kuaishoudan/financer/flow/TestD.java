@@ -16,7 +16,9 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -41,6 +43,7 @@ public class TestD {
 	String devicename = "";
 	public WebDriver webdriver;
 	static KSDCase ksd = null;
+
 	/**
 	 * 不出合同-审批流
 	 * 
@@ -50,7 +53,7 @@ public class TestD {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		TestD ct = new TestD();
-	
+
 		System.out.println("***@");
 		ct.setUp2();// web启动
 		ct.setUp();// app启动
@@ -60,10 +63,10 @@ public class TestD {
 					System.getProperty("user.dir") + "/0615.txt"), true));
 			for (int i = 0; i < 1; i++) {
 				ct.dfp();// 待分配app
-	
+
 				ct.webDksp();// 已录
 				ct.appBsqht();// App不申请合同-申请请款
-	
+
 				ct.sp1();
 				ct.sp2();
 				ct.back();
@@ -82,13 +85,13 @@ public class TestD {
 				// ct.sp5();
 				// ct.sp6();
 				// ct.sp7();
-	
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (org.openqa.selenium.NoSuchElementException ex) {
 			ex.printStackTrace();
-	
+
 		} finally {
 			try {
 				writer.flush();
@@ -110,8 +113,6 @@ public class TestD {
 	public void setUp() throws IOException, InterruptedException {
 		driver = AppUtil.getDriver();
 
-		
-
 	}
 
 	// web
@@ -121,13 +122,11 @@ public class TestD {
 	}
 
 	public void loginWeb(String username) {
-	
 
 		WebUtil.login(webdriver, ksd);// 登录
 	}
 
 	public void logoutWeb() {
- 
 
 		WebUtil.logout(webdriver);// 登出
 	}
@@ -158,8 +157,6 @@ public class TestD {
 		ksd = testBCSQQK(driver, webdriver, ksd, devicename);
 
 	}
-
-
 
 	// 申请请款
 	public void appSqqk() {
@@ -193,7 +190,7 @@ public class TestD {
 			Map<String, String> map = AppSPUtil.getSPname(driver, ksd);// 从app获取审批人名字
 			String itename = map.get("prename");
 			String email = WebSPUtil.nameToemail(map.get("name"));
-			 testSP2(webdriver, email, itename,ksd); // 请款审批同意专员
+			testSP2(webdriver, email, itename, ksd); // 请款审批同意专员
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -214,18 +211,18 @@ public class TestD {
 				// bd操作
 
 				String email = WebSPUtil.nameToemail(map.get("name"));
-				AppSPUtil.loginBD(driver, email,ksd);
+				AppSPUtil.loginBD(driver, email, ksd);
 				AppUtil.login(driver, devicename, ksd);// 登录
 
 				Thread.sleep(1000);
 				Map<String, String> map2 = AppSPUtil.getSPname(driver, ksd);// 从app获取审批人名字
 				String itename2 = map2.get("prename");
 				String email2 = WebSPUtil.nameToemail(map2.get("name"));
-				WebSPUtil.testSP3(webdriver, email2, itename2,ksd); // 请款审批同意专员
+				WebSPUtil.testSP3(webdriver, email2, itename2, ksd); // 请款审批同意专员
 			} else {
 				String itename = map.get("prename");
 				String email = WebSPUtil.nameToemail(map.get("name"));
-				WebSPUtil.testSP3(webdriver, email, itename,ksd); // 请款审批同意专员
+				WebSPUtil.testSP3(webdriver, email, itename, ksd); // 请款审批同意专员
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -292,11 +289,11 @@ public class TestD {
 		driver.quit();
 		webdriver.quit();
 	}
-	
+
 	// 不出合同申请请款
-	public static KSDCase testBCSQQK(AppiumDriver<AndroidElement> driver,WebDriver webdriver,
-			KSDCase ksd,String devicename) {
-	
+	public static KSDCase testBCSQQK(AppiumDriver<AndroidElement> driver,
+			WebDriver webdriver, KSDCase ksd, String devicename) {
+
 		int aa = 0, countImg = 0;
 		List<Integer> list2 = ksd.getImgtypes();
 		List<Integer> list3 = UserDaoImpl.getOMaterial(ksd, 2);
@@ -313,188 +310,236 @@ public class TestD {
 		// countImg=ksd.getImgtypes().size();
 		System.out.println("$$$" + countImg);
 		ksd.setImgcount(countImg);
-		List<WebElement> indexs=	AppUtil.dfs(driver, By.id("com.kuaishoudan.financer:id/text_name"));
-		AppUtil.dfBy(driver,indexs.get(0)).click();// 首页列表
-
+		if (ksd.getCommit_type() == 2) {
 			AppUtil.df(driver,
-					By.id("com.kuaishoudan.financer:id/tv_not_apply_compact")).click();// 不出合同
-			int gxs = AppUtil.dfs(driver,
-					By.id("com.kuaishoudan.financer:id/check_group")).size();// 勾选数
-			// System.out.println("gxs" + gxs);
-			List<WebElement> noGPS=AppUtil.dfs(driver, By.id("com.kuaishoudan.financer:id/check_group"));
-			AppUtil.dfBy(driver,noGPS.get(gxs - 1)).click();// 不安装 选择GPS安装方式
+					By.id("com.kuaishoudan.financer:id/text_product")).click();// 常规产品列表
+		} else {
 
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_submit"))
-					.click();// 提交
+			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/text_name"))
+					.click();// 首页列表
+		}
 
-			AppUtil.df(driver,
-					By.id("com.kuaishoudan.financer:id/dialog_custom_confirm"))
-					.click();// 是按钮
+		AppUtil.df(driver,
+				By.id("com.kuaishoudan.financer:id/tv_not_apply_compact"))
+				.click();// 不出合同
+		int gxs = AppUtil.dfs(driver,
+				By.id("com.kuaishoudan.financer:id/check_group")).size();// 勾选数
+		// System.out.println("gxs" + gxs);
+		List<WebElement> noGPS = AppUtil.dfs(driver,
+				By.id("com.kuaishoudan.financer:id/check_group"));
+		AppUtil.dfBy(driver, noGPS.get(gxs - 1)).click();// 不安装 选择GPS安装方式
 
-			/*
-			 * 申请请款445整数进位
-			 */
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_submit"))
+				.click();// 提交
 
-			int acounts = ksd.getSssh_account();
-			int acount_c = acounts / 3;
-			int acount_y = acounts % 3;
-			if (acount_c == 0) {
+		AppUtil.df(driver,
+				By.id("com.kuaishoudan.financer:id/dialog_custom_confirm"))
+				.click();// 是按钮
 
-			} else {
+		/*
+		 * 申请请款445整数进位
+		 */
 
-				for (int j = 0; j < acount_c; j++)
-					AppUtil.swipeToUp0(driver, 1000);// 向上滑动
+		int acounts = ksd.getSssh_account();
+		int acount_c = acounts / 3;
+		int acount_y = acounts % 3;
+		if (acount_c == 0) {
 
-			}
-		List<WebElement>	accouts=AppUtil.dfs(driver,
-					By.id("com.kuaishoudan.financer:id/text_request_pay_name"));
-		AppUtil.dfBy(driver,accouts.get(acount_y)).click();// dian账号名
+		} else {
 
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/iv_is_show"))
-					.click();// xia下标
+			for (int j = 0; j < acount_c; j++)
+				AppUtil.swipeToUp0(driver, 1000);// 向上滑动
 
-			AppUtil.df(driver,
-					By.id("com.kuaishoudan.financer:id/et_chekuan_chejia"))
-					.sendKeys(ksd.getVin());// 车架号
+		}
+		List<WebElement> accouts = AppUtil.dfs(driver,
+				By.id("com.kuaishoudan.financer:id/text_request_pay_name"));
+		AppUtil.dfBy(driver, accouts.get(acount_y)).click();// dian账号名
 
-			List<WebElement> ssds = AppUtil.dfs(driver,
-					By.id("com.kuaishoudan.financer:id/text_content"));
-			AppUtil.dfBy(driver,ssds.get(1)).sendKeys("0");// 购置税
-			AppUtil.dfBy(driver,ssds.get(2)).sendKeys("0");// 保险费
-			// ssds.get(2).sendKeys("0") ;// 保险费
-			AppUtil.df(driver,
-					By.id("com.kuaishoudan.financer:id/ll_chekuan_shangpaidiya"))
-					.click();// 上牌抵押地
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/options3"))
-					.click();// 城市
-		/*	int width = driver.manage().window().getSize().width;
-			int height = driver.manage().window().getSize().height;
-			TouchAction action1 = new TouchAction(driver)
-					.press(PointOption.point(width * 2 / 3, height - 80))
-					.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
-					.moveTo(PointOption.point(width * 2 / 3, height - 280))
-					.release();
-			action1.perform();*/
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/btnSubmit"))
-					.click();// 城市确定
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/iv_is_show"))
+				.click();// xia下标
 
-			AppUtil.df(driver,
-					By.id("com.kuaishoudan.financer:id/tv_chekuan_shangpaifang"))
-					.click();// 上牌方
+		AppUtil.df(driver,
+				By.id("com.kuaishoudan.financer:id/et_chekuan_chejia"))
+				.sendKeys(ksd.getVin());// 车架号
 
-			List<WebElement> spf=AppUtil.dfs(driver, By.id("com.kuaishoudan.financer:id/text_select"));
-				AppUtil.dfBy(driver,spf.get(ksd.getRegisttype() - 1)).click();
+		List<WebElement> ssds = AppUtil.dfs(driver,
+				By.id("com.kuaishoudan.financer:id/text_content"));
+		AppUtil.dfBy(driver, ssds.get(1)).sendKeys("0");// 购置税
+		AppUtil.dfBy(driver, ssds.get(2)).sendKeys("0");// 保险费
+		// ssds.get(2).sendKeys("0") ;// 保险费
+		AppUtil.df(driver,
+				By.id("com.kuaishoudan.financer:id/ll_chekuan_shangpaidiya"))
+				.click();// 上牌抵押地
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/options3"))
+				.click();// 城市
+		/*
+		 * int width = driver.manage().window().getSize().width; int height =
+		 * driver.manage().window().getSize().height; TouchAction action1 = new
+		 * TouchAction(driver) .press(PointOption.point(width * 2 / 3, height -
+		 * 80)) .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+		 * .moveTo(PointOption.point(width * 2 / 3, height - 280)) .release();
+		 * action1.perform();
+		 */
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/btnSubmit"))
+				.click();// 城市确定
 
-			AppUtil.df(driver,
-					By.id("com.kuaishoudan.financer:id/tv_chekuan_diyafang"))
-					.click();// 抵押方
+		AppUtil.df(driver,
+				By.id("com.kuaishoudan.financer:id/tv_chekuan_shangpaifang"))
+				.click();// 上牌方
 
-			List<WebElement> dyf=		AppUtil.dfs(driver, By.id("com.kuaishoudan.financer:id/text_select"));
-				AppUtil.dfBy(driver,	dyf.get(ksd.getPledge() - 1)).click();
+		List<WebElement> spf = AppUtil.dfs(driver,
+				By.id("com.kuaishoudan.financer:id/text_select"));
+		AppUtil.dfBy(driver, spf.get(ksd.getRegisttype() - 1)).click();
 
-			// driver.findElement(By.id("com.kuaishoudan.financer:id/tv_chekuan_kouchuxiang")).sendKeys(""+ksd.getDeduction());//扣除款项
+		AppUtil.df(driver,
+				By.id("com.kuaishoudan.financer:id/tv_chekuan_diyafang"))
+				.click();// 抵押方
 
-			AppUtil.swipeToUp(driver, 1000);// 向上滑动
+		List<WebElement> dyf = AppUtil.dfs(driver,
+				By.id("com.kuaishoudan.financer:id/text_select"));
+		AppUtil.dfBy(driver, dyf.get(ksd.getPledge() - 1)).click();
 
-			AppUtil.uploadQk(driver, ksd.getImgcount());
+		// driver.findElement(By.id("com.kuaishoudan.financer:id/tv_chekuan_kouchuxiang")).sendKeys(""+ksd.getDeduction());//扣除款项
 
-			// RequestPayout requestPyout = ksd.getRequestpayout();
-			/*
-			 * try {
-			 * 
-			 * // AppUtil.testFd(driver, devicename,requestPyout); //
-			 * AppUtil.testDy(driver,devicename, requestPyout); //
-			 * AppUtil.testZx(driver,devicename, requestPyout); } catch
-			 * (InterruptedException e1) { // TODO Auto-generated catch block //
-			 * e1.printStackTrace(); } catch (IOException e1) { // TODO
-			 * Auto-generated catch block // e1.printStackTrace(); }
-			 */
+		AppUtil.swipeToUp(driver, 1000);// 向上滑动
 
-			AppUtil.df(driver,
-					By.id("com.kuaishoudan.financer:id/tv_toolbar_confirm"))
-					.click();// 确定
+		AppUtil.uploadQk(driver, ksd.getImgcount());
 
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/tv_confirm"))
+		// RequestPayout requestPyout = ksd.getRequestpayout();
+		/*
+		 * try {
+		 * 
+		 * // AppUtil.testFd(driver, devicename,requestPyout); //
+		 * AppUtil.testDy(driver,devicename, requestPyout); //
+		 * AppUtil.testZx(driver,devicename, requestPyout); } catch
+		 * (InterruptedException e1) { // TODO Auto-generated catch block //
+		 * e1.printStackTrace(); } catch (IOException e1) { // TODO
+		 * Auto-generated catch block // e1.printStackTrace(); }
+		 */
+
+		driver.findElement(By.id("com.kuaishoudan.financer:id/tv_toolbar_confirm")).click();// 确定
+
+		try {
+			driver.findElement(By.id("com.kuaishoudan.financer:id/tv_confirm"))
 					.click();// 申请请款确定
+		} catch (org.openqa.selenium.NoSuchElementException e1) {
+			// TODO Auto-generated catch block
+			// e1.printStackTrace();
+			for (int j = 0; j < 5; j++) {
+				// System.out.println("@@@@@@@@@@@");
+				try {
+					Thread.sleep(8000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-			try {
-				Thread.sleep(7000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				int ss = driver
+						.findElements(
+								By.id("com.kuaishoudan.financer:id/tv_toolbar_confirm"))
+						.size();
+				if (ss == 1) {
+
+					AppUtil.df(
+							driver,
+							By.id("com.kuaishoudan.financer:id/tv_toolbar_confirm"))
+							.click();
+
+				} else {
+
+					break;
+				}
+
 			}
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/tv_countdown"))
-					.click();// 倒计时确认
-			
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_back"))
-					.click();// 返回
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_back"))
-			.click();// 返回
-			
-		/*	String actualstatue = AppSPUtil.getActstatue(driver);
-			ksd.setStatue(actualstatue);
-			Assert.assertEquals(ksd.getStatue(), "已请款");*/
+			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/tv_confirm"))
+			.click();// 申请请款确定
+		}
+
+		try {
+			Thread.sleep(7000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/tv_countdown"))
+				.click();// 倒计时确认
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_back"))
+				.click();// 返回
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_back"))
+				.click();// 返回
+
+		/*
+		 * String actualstatue = AppSPUtil.getActstatue(driver);
+		 * ksd.setStatue(actualstatue); Assert.assertEquals(ksd.getStatue(),
+		 * "已请款");
+		 */
 
 		Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
 				UserDaoImpl.getstatus_id("已请款"));
-		
-	
 
 		return ksd;
 	}
-	
+
 	// 请款审批同意数据运营
 
-		public static boolean testSP2(WebDriver driver, String email, String itename,KSDCase ksd) {
-		 
-			boolean flag = false;
-			WebSPUtil.login2(driver, email, ksd.getSp_password());
+	public static boolean testSP2(WebDriver driver, String email,
+			String itename, KSDCase ksd) {
 
-			//WebSPUtil.clickItem(driver, itename);
- 		
-			WebUtil.df(driver,By.linkText("客户")).click();
-		 
-			WebUtil.df(driver,By.linkText("审批管理")).click();
-		 
-			WebSPUtil.clickItemorder(driver, ksd.getLoginname());
- 
-	  
-			WebUtil.df(driver,By.linkText("确认提交")).click();// 确认提交
-	 
-			WebUtil.df(driver,By.id("risk_type2")).click();
-				/*driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-				driver.findElement(By.id("is_allReturn")).click();//全部
-				driver.manage().timeouts().implicitlyWait(33, TimeUnit.SECONDS);//xuan
-				
-				Select userSelect = new Select(
-						driver.findElement(By.id("is_allReturn")));
-				userSelect.selectByVisibleText("全部到我司");*/
-				
-		 
-			WebUtil.df(driver,By.name("remark")).sendKeys("同意");
-			 
-			WebUtil.df(driver,By.xpath("//div[@class='cashed_mark']/div/a")).click();//确认
-		 
-			flag = true;
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		boolean flag = false;
+		WebSPUtil.login2(driver, email, ksd.getSp_password());
 
-			
-			Assert.assertEquals( UserDaoImpl.getRisk_type(ksd), 4);
-			Map<String, String> actual = UserDaoImpl.getAdvance(ksd);
-			Map<String, String> expect = CaseUtil.getAdvance(ksd);
-			Assert.assertEquals(actual, expect);
-			WebUtil.logout(driver);
-			return flag;
+		// WebSPUtil.clickItem(driver, itename);
+
+		WebUtil.df(driver, By.linkText("客户")).click();
+
+		WebUtil.df(driver, By.linkText("审批管理")).click();
+
+		WebSPUtil.clickItemorder(driver, ksd.getLoginname());
+
+		WebUtil.df(driver, By.linkText("确认提交")).click();// 确认提交
+
+		WebUtil.df(driver, By.id("risk_type2")).click();
+		/*
+		 * driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
+		 * driver.findElement(By.id("is_allReturn")).click();//全部
+		 * driver.manage().timeouts().implicitlyWait(33,
+		 * TimeUnit.SECONDS);//xuan
+		 * 
+		 * Select userSelect = new Select(
+		 * driver.findElement(By.id("is_allReturn")));
+		 * userSelect.selectByVisibleText("全部到我司");
+		 */
+
+		WebUtil.df(driver, By.name("remark")).sendKeys("同意");
+
+		WebUtil.df(driver, By.xpath("//div[@class='cashed_mark']/div/a"))
+				.click();// 确认
+
+		flag = true;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		Assert.assertEquals(UserDaoImpl.getRisk_type(ksd), 4);
+		Map<String, String> actual = UserDaoImpl.getAdvance(ksd);
+		Map<String, String> expect = CaseUtil.getAdvance(ksd);
+		Assert.assertEquals(actual, expect);
+		WebUtil.logout(driver);
+		return flag;
+	}
 }

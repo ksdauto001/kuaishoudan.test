@@ -33,11 +33,12 @@ import com.kuaishoudan.financer.selenium.AppSPUtil;
 import com.kuaishoudan.financer.selenium.AppUtil;
 import com.kuaishoudan.financer.selenium.WebSPUtil;
 import com.kuaishoudan.financer.selenium.WebUtil;
- 
+
 import com.kuaishoudan.financer.util.DBUtil;
 import com.kuaishoudan.financer.util.RandomValue;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 
 public class TestUser {
@@ -47,10 +48,11 @@ public class TestUser {
 	static KSDCase ksd = null;
 	List<Employee> employes = null;
 	String itename = "";
-	String flow="";
-	DBUtil db=null;
+	String flow = "";
+	DBUtil db = null;
+
 	/**
-	 *  不出合同-审批流1222266
+	 * 不出合同-审批流1222266
 	 * 
 	 * @param args
 	 * @throws Exception
@@ -58,13 +60,12 @@ public class TestUser {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		TestUser ct = new TestUser();
-	 
-	 
-		ct.setUp();//  启动
+
+		ct.setUp();// 启动
 		int count = ct.getCount();
 		for (int i = 0; i < count; i++) {
-			long startTime = System.currentTimeMillis();    //获取开始时间
-			ct.dfp();// 待分配app
+			long startTime = System.currentTimeMillis(); // 获取开始时间
+			ct.dfp(i);// 待分配app
 			switch (ksd.getInit_statue()) {
 			case 1:
 				ct.webYfp();// 已分配
@@ -137,9 +138,9 @@ public class TestUser {
 				break;
 			default:
 			}
-			long endTime = System.currentTimeMillis();    //获取结束时间
+			long endTime = System.currentTimeMillis(); // 获取结束时间
 
-			System.out.println("程序运行时间：" + (endTime - startTime) + "ms");    //输出程序运行时间
+			System.out.println("程序运行时间：" + (endTime - startTime) + "ms"); // 输出程序运行时间
 
 		}
 
@@ -152,38 +153,86 @@ public class TestUser {
 	}
 
 	public void setUp() throws IOException, InterruptedException {
-	
-	 
-		 new Thread(new Runnable(){
-			    @Override
-			    public void run() {
-			    	try {
-						webdriver = WebUtil.getDriver();
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					webdriver = WebUtil.getDriver();
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				db = new DBUtil();
+				ksd = RandomValue.getRandom();
+
+			}
+
+		}).start();
+
+		driver = AppUtil.getDriver();
+		Thread.sleep(300);
+		try {
+			new WebDriverWait(driver, 2)
+					.until(new ExpectedCondition<WebElement>() {
+						@Override
+						public WebElement apply(WebDriver d) {
+							return d.findElement(By
+									.id("com.kuaishoudan.financer:id/toolbar_title")); // 标题
+
+						}
+					});
+
+		} catch (org.openqa.selenium.TimeoutException e) {
+
+			int acs = driver.findElements(
+					By.id("com.kuaishoudan.financer:id/btn_login")).size();
+			if (acs == 1) {
+				AppUtil.login(driver, devicename, ksd);// 登录
+			}
+			try {
+				new WebDriverWait(driver, 1)
+						.until(new ExpectedCondition<WebElement>() {
+							@Override
+							public WebElement apply(WebDriver d) {
+								return d.findElement(By
+										.id("com.kuaishoudan.financer:id/toolbar_title"));
+
+							}
+						});
+
+			} catch (org.openqa.selenium.TimeoutException ex) {
+
+				Thread.sleep(2000);
+				for (int i = 0; i < 4; i++) {
+					int yx = driver.findElements(
+							By.id("com.lbe.security.miui:id/dialog_container"))
+							.size();
+					if (yx == 1) {
+						try {
+
+							driver.switchTo().alert().accept();// 允许权限
+
+						} catch (org.openqa.selenium.NoAlertPresentException ea) {
+							// TODO Auto-generated catch block
+							// e.printStackTrace();
+						}
 					}
-					  db=new 	DBUtil();
-						  ksd = RandomValue.getRandom();
-			    }
-			    
-			   }).start();
-		
-			driver = AppUtil.getDriver();
-			 Thread.sleep(1000);
-			 try{
-				 new WebDriverWait(driver, 3).until(new ExpectedCondition<WebElement>(){ 
-					 @Override 
-					 public WebElement apply(WebDriver d) { 
-						 return d.findElement(By.id("com.kuaishoudan.financer:id/toolbar_title")); 
-			
-					 } 				
-				 }) ;
-			 			
-			 } catch(org.openqa.selenium.TimeoutException e){
-		
-				 AppUtil.login(driver, devicename, ksd);
-			 }
+				}
+				Thread.sleep(100);
+			int	tgk = driver.findElements(
+						By.id("com.kuaishoudan.financer:id/tv_guide_know"))
+						.size();
+
+				if (tgk == 1) {
+					AppUtil.df(driver,
+							By.id("com.kuaishoudan.financer:id/tv_guide_know"))
+							.click();// 我知道了
+
+				}
+			}
+
+		}
 
 	}
 
@@ -202,19 +251,23 @@ public class TestUser {
 
 		WebUtil.logout(webdriver);// 登出
 	}
- 
-	public int getCount(){
+
+	public int getCount() {
 		return WebUtil.getCount();
 	}
+
 	/**
 	 * 创建用户，进件，待审批
 	 */
-	public void dfp() {
-		ksd = AppUtil.addTest(driver, webdriver, devicename, 1);
-
+	public void dfp(int i) {
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		if (ksd.getCommit_type() == 2) {
+			ksd = AppUtil.addZjjtest(driver, webdriver, devicename, i, ksd);
+		} else {
+			ksd = AppUtil.addTest(driver, webdriver, devicename, 1);
+		}
 	}
 
-	
 	/**
 	 * web
 	 */
@@ -224,6 +277,7 @@ public class TestUser {
 		WebUtil.logout(webdriver);// 登出
 
 	}
+
 	public void webYlr() {
 		WebUtil.login(webdriver, ksd);// 登录
 		WebUtil.testDFP(webdriver, ksd);// 待分配
@@ -243,9 +297,10 @@ public class TestUser {
 		WebUtil.logout(webdriver);// 登出
 
 	}
+
 	// App不申请合同
 	public void appBsqht() {
-		  flow = ksd.getFlow();
+		flow = ksd.getFlow();
 		switch (flow) {
 		case "A":
 			ksd = TestA.testBCSQQK(driver, webdriver, ksd, devicename);
@@ -258,7 +313,7 @@ public class TestUser {
 		case "C":
 			ksd = TestC.testBCSQQK(driver, webdriver, ksd, devicename);
 			employes = UserDaoImpl.getSpNameid(ksd, 3);
-			
+
 			break;
 		case "D":
 			ksd = TestD.testBCSQQK(driver, webdriver, ksd, devicename);
@@ -270,96 +325,96 @@ public class TestUser {
 			break;
 		default:
 			System.out.println("default");
-		
+
 		}
-	
+
 	}
 
 	// 请款审批同意专员
 	public void sp1() {
 		itename = ksd.getLoginname();
-		if("A".equals(flow)||"B".equals(flow)){
-		for (Employee ep:employes) {
-	 
-			if (ep.getDesc().equals("客服专员")) {
-				System.out.println(ep.getUsername());
-				WebSPUtil.testSP1(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
-				itename = ep.getUsername();
+		if ("A".equals(flow) || "B".equals(flow)) {
+			for (Employee ep : employes) {
 
-				break;
-			}
-			if (ep.getDesc().equals("请款审核专员")) {
-				System.out.println(ep.getUsername());
-				WebSPUtil.testSP1(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
-				itename = ep.getUsername();
+				if (ep.getDesc().equals("客服专员")) {
+					System.out.println(ep.getUsername());
+					WebSPUtil.testSP1(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
+					itename = ep.getUsername();
 
-				break;
+					break;
+				}
+				if (ep.getDesc().equals("请款审核专员")) {
+					System.out.println(ep.getUsername());
+					WebSPUtil.testSP1(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
+					itename = ep.getUsername();
+
+					break;
+				}
 			}
-		}
-		}else{
+		} else {
 			System.out.println(ksd.getLoginname());
 			WebSPUtil.testSP1(webdriver, ksd.getLoginemail(), itename, ksd); // 请款审批同意专员
-			
+
 		}
 	}
 
 	//
 	public void sp2() {
- 
-		for ( int i=0;i<employes.size();i++) {
-			Employee ep=employes.get(i);
+
+		for (int i = 0; i < employes.size(); i++) {
+			Employee ep = employes.get(i);
 			if (ep.getDesc().equals("数据运营")) {
 				System.out.println(ep.getUsername());
 				switch (flow) {
 				case "A":
-				WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
-				break;
+					WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
+					break;
 				case "B":
-				WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
-				break;
+					WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
+					break;
 				case "C":
-				TestC.testSP2(webdriver,ep.getAccount(), itename, ksd);			
-				break;
+					TestC.testSP2(webdriver, ep.getAccount(), itename, ksd);
+					break;
 				case "D":
-				TestD.testSP2(webdriver,ep.getAccount(), itename, ksd);				
-				break;
+					TestD.testSP2(webdriver, ep.getAccount(), itename, ksd);
+					break;
 				case "E":
-				TestE.testSP2(webdriver, ep.getAccount(), itename, ksd);
-				break;
+					TestE.testSP2(webdriver, ep.getAccount(), itename, ksd);
+					break;
 				default:
 					System.out.println("default");
-							
+
 				}
 				itename = ep.getUsername();
 				employes.remove(i);
 				break;
-			}else if (ep.getDesc().equals("请款审核组长")) {
+			} else if (ep.getDesc().equals("请款审核组长")) {
 				System.out.println(ep.getUsername());
 				switch (flow) {
 				case "A":
-				WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
-				break;
+					WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
+					break;
 				case "B":
-				WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
-				break;
+					WebSPUtil.testSP2(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
+					break;
 				case "C":
-				TestC.testSP2(webdriver,ep.getAccount(), itename, ksd);			
-				break;
+					TestC.testSP2(webdriver, ep.getAccount(), itename, ksd);
+					break;
 				case "D":
-				TestD.testSP2(webdriver,ep.getAccount(), itename, ksd);				
-				break;
+					TestD.testSP2(webdriver, ep.getAccount(), itename, ksd);
+					break;
 				case "E":
-				TestE.testSP2(webdriver, ep.getAccount(), itename, ksd);
-				break;
+					TestE.testSP2(webdriver, ep.getAccount(), itename, ksd);
+					break;
 				default:
 					System.out.println("default");
-							
+
 				}
-			 
+
 				itename = ep.getUsername();
 				employes.remove(i);
 				break;
-			}else if (ep.getDesc().equals("BD经理")) {
+			} else if (ep.getDesc().equals("BD经理")) {
 				System.out.println(ep.getUsername());
 				AppSPUtil.loginBD(driver, ep.getAccount(), ksd);
 				AppUtil.login(driver, devicename, ksd);// 登录
@@ -368,9 +423,7 @@ public class TestUser {
 				break;
 			}
 		}
-		
-		
-		 
+
 	}
 
 	// 333
@@ -384,12 +437,7 @@ public class TestUser {
 				itename = ep.getUsername();
 				break;
 			}
-			/*if (ep.getDesc().equals("BD经理")) {
-				System.out.println(ep.getUsername());
-				WebSPUtil.testSP3(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
-				itename = ep.getUsername();
-				break;
-			}*/
+	
 
 		}
 		for (Employee ep : employes) {
@@ -398,17 +446,19 @@ public class TestUser {
 				WebSPUtil.testSP3(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
 				itename = ep.getUsername();
 				break;
-			}else if(ep.getDesc().equals("数据运营")){
+			} else if (ep.getDesc().equals("数据运营")) {
 				System.out.println(ep.getUsername());
 				WebSPUtil.testSP3(webdriver, ep.getAccount(), itename, ksd); // 请款审批同意专员
 				itename = ep.getUsername();
 				break;
-			} 
+			}
 		}
 
 	}
+
 	// 状态已放款
 	public void sp4() {
+
 		for (Employee ep : employes) {
 			if (ep.getDesc().equals("财务专员")) {
 				System.out.println(ep.getUsername());
@@ -422,6 +472,7 @@ public class TestUser {
 
 	// 状态已回款
 	public void sp5() {
+
 		for (Employee ep : employes) {
 			if (ep.getDesc().equals("财务专员")) {
 				System.out.println(ep.getUsername());
@@ -451,11 +502,10 @@ public class TestUser {
 	}
 
 	public void tearDown() throws Exception {
-	
+
 		driver.quit();
 		webdriver.quit();
 		db.closeConn1();
-		
-		
+
 	}
 }

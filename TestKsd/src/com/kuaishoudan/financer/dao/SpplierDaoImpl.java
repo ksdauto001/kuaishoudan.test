@@ -21,14 +21,10 @@ public class SpplierDaoImpl {
 
 	public static void main(String[] args) {
 
-		
-		KSDCase ksd = RandomValue.getRandom();;
-	
+		KSDCase ksd = RandomValue.getRandom();
+		;
+
 	}
-
-
-
-
 
 	public static Map<String, String> getCustomer(KSDCase ksd) {
 		String ff = "";
@@ -59,12 +55,10 @@ public class SpplierDaoImpl {
 			System.out.println(e);
 			e.printStackTrace();
 		} finally {
-			//util.closeConn(conn);
+			// util.closeConn(conn);
 		}
 		System.out.println(ff);
 		return map;
 	}
-
-	
 
 }

@@ -32,7 +32,7 @@ public class WebOrgan {
 			KSDCase ksd = RandomValue.getRandom();
 			ksd.setProduct("平安银行-那家店");// qita22-其他22产品1
 			ksd.setCartype(1);
-			WebUtil.login(driver, ksd );// 登录
+			WebUtil.login(driver, ksd);// 登录
 			List<Integer> list = getImge1(driver, ksd);
 			WebUtil.logout(driver);
 			Thread.sleep(25000);
@@ -68,10 +68,9 @@ public class WebOrgan {
 					By.xpath("//ul[@class='page_list']/li[" + j + "]")).click();
 			List<WebElement> ws = driver.findElements(By.className("org_name"));
 
-
 			for (int i = 0; i < ws.size(); i++) {
 
-				//System.out.println("ws" + ws.get(i).getText());
+				// System.out.println("ws" + ws.get(i).getText());
 				if (ws.get(i).getText().equals(sss)) {
 					driver.manage().timeouts()
 							.implicitlyWait(13, TimeUnit.SECONDS);
@@ -82,10 +81,10 @@ public class WebOrgan {
 
 					List<WebElement> mask = driver.findElements(By
 							.className("org_mask"));
-				//	System.out.println("@===" + mask.size());
+					// System.out.println("@===" + mask.size());
 					// mask.get(i).click();
 					driver.manage().timeouts()
-					.implicitlyWait(13, TimeUnit.SECONDS);
+							.implicitlyWait(13, TimeUnit.SECONDS);
 					mask.get(i).findElement(By.tagName("a")).click();
 					break loop;
 				}

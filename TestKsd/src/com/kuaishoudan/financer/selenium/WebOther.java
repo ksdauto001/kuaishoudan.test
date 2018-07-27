@@ -63,7 +63,7 @@ public class WebOther {
 
 		driver.findElement(By.linkText("转交他人")).click();
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-		testZjtr(driver,email,itename);
+		testZjtr(driver, email, itename);
 		WebUtil.logout(driver);
 		return flag;
 	}
@@ -86,12 +86,11 @@ public class WebOther {
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
 		WebElement agree = driver.findElement(By
 				.xpath("//div[@class='details_content']/div[2]/div/a"));
-		
- 
+
 		if (agree.getText().equals("同意")) {
 			driver.findElement(By.linkText("转交他人")).click();
 			driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-			testZjtr(driver,email,itename);
+			testZjtr(driver, email, itename);
 		} else {
 			agree.click();// 确认提交
 			driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
@@ -103,10 +102,11 @@ public class WebOther {
 					.click();// 确认
 		}
 		flag = true;
-	
+
 		WebUtil.logout(driver);
 		return flag;
 	}
+
 	// 请款审批审核组长
 
 	public static boolean testSP3(WebDriver driver, String email, String itename) {
@@ -123,18 +123,18 @@ public class WebOther {
 		}
 
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-			driver.findElement(By.linkText("转交他人")).click();
+		driver.findElement(By.linkText("转交他人")).click();
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-	
-		testZjtr(driver,email,itename);
+
+		testZjtr(driver, email, itename);
 		flag = true;
 
 		WebUtil.logout(driver);
 		return flag;
 	}
-	
-	
-	public static boolean testSP4(WebDriver driver, String email, String itename,KSDCase ksd) {
+
+	public static boolean testSP4(WebDriver driver, String email,
+			String itename, KSDCase ksd) {
 		// / String username = "sheny@jizhicar.com";
 		boolean flag = false;
 		WebSPUtil.login2(driver, email, "@123456");
@@ -145,7 +145,6 @@ public class WebOther {
 				+ (height * 2 + 500) + ")"); // 向下滑动
 		WebShop.clickShop(driver, ksd);
 
-	
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
 		Select userSelect = new Select(
 				driver.findElement(By.id("orderby_type")));
@@ -155,16 +154,17 @@ public class WebOther {
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
 
 		((JavascriptExecutor) driver).executeScript("window.scrollTo(0,"
-		+ (height * 2 + 200) + ")"); // 向下滑动
+				+ (height * 2 + 200) + ")"); // 向下滑动
 
 		driver.findElement(By.linkText("转交他人")).click();
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-		testZjtr(driver,email,itename);
+		testZjtr(driver, email, itename);
 		flag = true;
-	 
+
 		WebUtil.logout(driver);
 		return flag;
 	}
+
 	public static void testZjtr(WebDriver driver, String email, String itename) {
 		try {
 			Thread.sleep(1500);
@@ -193,7 +193,7 @@ public class WebOther {
 		driver.findElement(By.id("transfer-remark")).sendKeys("转交原因");
 		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
 		driver.findElement(By.id("dialog_confirm")).click();// 确认
-		
+
 		try {
 			Thread.sleep(13000);
 		} catch (InterruptedException e) {

@@ -23,14 +23,13 @@ public class AppShopUtil {
 	public static ShopBeanCase createShop(AppiumDriver<AndroidElement> driver,
 			ShopBeanCase shopBeanCase, String devicename) throws Exception {
 
-		
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/toolbar_menu"))
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_menu"))
 				.click();// 点击出左边的弹框
- 
+
 		driver.findElements(
 				By.id("com.kuaishoudan.financer:id/design_menu_item_text"))
 				.get(1).click();// 点击商户
- 
+
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/tv_create_supplier"))
 				.click();// 新建商户
@@ -40,7 +39,7 @@ public class AppShopUtil {
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/text_supplier_yewu_type"))
 				.click();// 点击业务类型
-	 
+
 		if (shopBeanCase.getBusinessType() == 0) {
 			driver.findElements(
 					By.id("com.kuaishoudan.financer:id/text_select")).get(0)
@@ -57,7 +56,7 @@ public class AppShopUtil {
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/text_supplier_type"))
 				.click();// 点击店铺类型
- 
+
 		if (shopBeanCase.getBusinessType() == 0) {
 			driver.findElements(
 					By.id("com.kuaishoudan.financer:id/text_select")).get(0)
@@ -79,28 +78,31 @@ public class AppShopUtil {
 				By.id("com.kuaishoudan.financer:id/text_supplier_address"))
 				.click();// 地址点击
 
-/*		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/ll_search"))
-				.click();
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/input_edittext"))
-				.sendKeys("北京南");
-		driver.findElements(By.id("com.kuaishoudan.financer:id/tv_address"))
-				.get(0).click();*/
+		/*
+		 * AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/ll_search"))
+		 * .click();
+		 * AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/input_edittext"
+		 * )) .sendKeys("北京南");
+		 * driver.findElements(By.id("com.kuaishoudan.financer:id/tv_address"))
+		 * .get(0).click();
+		 */
 		Thread.sleep(150);
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/toolbar_right_tv")).click();// 地图选址
- 
+
 		// 找到封面图相对应的textView，进行点击
 		WebElement supp = driver.findElement(By
 				.id("com.kuaishoudan.financer:id/btn_supplier_cover"));
 		supp.findElements(By.className("android.widget.ImageView")).get(1)
 				.click();
 
-		AppUtil.df(driver,
+		AppUtil.df(
+				driver,
 				By.id("com.kuaishoudan.financer:id/dialog_photo_select_btn_gallery"))
 				.click();// 从相册中选择
 		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_thumb"))
 				.get(0).click();// 选择图片
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/btn_ok")).click();// 点击确定
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/btn_ok")).click();// 点击确定
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/text_supplier_jiesuan_type"))
 				.click();// 款项结算方式选择
@@ -115,10 +117,11 @@ public class AppShopUtil {
 		}
 
 		AppUtil.df(driver,
-				By.id("com.kuaishoudan.financer:id/et_company_count")).sendKeys(shopBeanCase.getCompanyNumber());// 公司人数
- 
+				By.id("com.kuaishoudan.financer:id/et_company_count"))
+				.sendKeys(shopBeanCase.getCompanyNumber());// 公司人数
+
 		AppUtil.swipeToUp(driver, 1000);// 向上滑动
- 
+
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/text_mouth_sales")).click();// 月销量
 		if (shopBeanCase.getMouthSale() == 0) {
@@ -142,16 +145,16 @@ public class AppShopUtil {
 					By.id("com.kuaishoudan.financer:id/text_select")).get(4)
 					.click();
 		}
- 
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/edit_name"))
+
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/edit_name"))
 				.sendKeys(shopBeanCase.getName());// 姓名
- 
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/edit_phone")).sendKeys(shopBeanCase.getPhone())
-				 ;// 手机
- 
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/text_position"))
-			.click();// 职务
- 
+
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/edit_phone"))
+				.sendKeys(shopBeanCase.getPhone());// 手机
+
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/text_position"))
+				.click();// 职务
+
 		// 选择职务
 		if (shopBeanCase.getDuty() == 0) {
 			driver.findElements(
@@ -170,12 +173,12 @@ public class AppShopUtil {
 					By.id("com.kuaishoudan.financer:id/text_select")).get(3)
 					.click();
 		}
-	 
+
 		// 联系人
 		// 不是必选的没写****************************************************************************************************************
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/toolbar_right_tv")).click();// 点击确认
- 
+
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/dialog_custom_confirm"))
 				.click();// 马上填写备案信息
@@ -194,10 +197,10 @@ public class AppShopUtil {
 					.click();
 		}
 
- 
 		AppUtil.df(driver,
-				By.id("com.kuaishoudan.financer:id/et_record_number")).sendKeys(shopBeanCase.getBusinessLicense());// 证件号码
-	 
+				By.id("com.kuaishoudan.financer:id/et_record_number"))
+				.sendKeys(shopBeanCase.getBusinessLicense());// 证件号码
+
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/text_supplier_account_type"))
 				.click();// 账户类型
@@ -221,42 +224,42 @@ public class AppShopUtil {
 					.click();
 		}
 		// 账户用途
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/cb_chekuan"))
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/cb_chekuan"))
 				.click();
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/cb_fandian"))
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/cb_fandian"))
 				.click();
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/cb_zafei"))
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/cb_zafei"))
 				.click();
 		// 账户名
- 
+
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/edit_supplier_account_name"))
 				.sendKeys(shopBeanCase.getAccountName());
 		// 开户行
- 
+
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/edit_supplier_open_bank"))
 				.sendKeys(shopBeanCase.getOpeningBack());
-	 
-  
+
 		AppUtil.df(driver,
-				By.id("com.kuaishoudan.financer:id/edit_supplier_bank_card")).sendKeys(shopBeanCase.getBackCardNumber())
-			 ;
-	/*	AppUtil.swipeToUp(driver, 1000);// 向上滑动
-		// 上传图片
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/iv_add")).click();
-		upload(driver, shopBeanCase.getImageCount());*/
+				By.id("com.kuaishoudan.financer:id/edit_supplier_bank_card"))
+				.sendKeys(shopBeanCase.getBackCardNumber());
+		/*
+		 * AppUtil.swipeToUp(driver, 1000);// 向上滑动 // 上传图片
+		 * AppUtil.df(driver,By.id
+		 * ("com.kuaishoudan.financer:id/iv_add")).click(); upload(driver,
+		 * shopBeanCase.getImageCount());
+		 */
 
 		// 备案信息提交
- 
-		AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/toolbar_confirm"))
+
+		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_confirm"))
 				.click();
-	 
+
 		AppUtil.df(driver,
 				By.id("com.kuaishoudan.financer:id/dialog_custom_confirm"))
 				.click();
-	 
- 
+
 		System.out.println("&&&&&&&&&&&&&&&&&");
 		return shopBeanCase;
 	}
@@ -272,9 +275,9 @@ public class AppShopUtil {
 		String acstatue = "";
 
 		try {
-		 
-	 
-			AppUtil.df(driver,
+
+			AppUtil.df(
+					driver,
 					By.id("com.kuaishoudan.financer:id/dialog_photo_select_btn_gallery"))
 					.click();// 从相册选择
 			driver.findElements(By.id("com.kuaishoudan.financer:id/iv_thumb"))
@@ -289,9 +292,8 @@ public class AppShopUtil {
 
 			}
 
- 
 			//
-			AppUtil.df(driver,By.id("com.kuaishoudan.financer:id/btn_ok"))
+			AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/btn_ok"))
 					.click();// 两种证上传——确定按钮
 			Thread.sleep(5000);
 
