@@ -52,7 +52,7 @@ public class TestUser {
 	DBUtil db = null;
 
 	/**
-	 * 不出合同-审批流1222266
+	 * 不出合同-审批流 （客户）
 	 * 
 	 * @param args
 	 * @throws Exception
