@@ -231,9 +231,10 @@ public class WebSPUtil {
 		}
 		WebUtil.logout(driver);
 		if (!ksd.getFlow().equals("E")) {
-			Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
+			Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 					UserDaoImpl.getstatus_id("已放款"));
 		}
+		
 		return flag;
 	}
 
@@ -273,7 +274,7 @@ public class WebSPUtil {
 			}
 			WebUtil.logout(driver);
 		}
-		Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
+		Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 				UserDaoImpl.getstatus_id("已回款"));
 
 		return flag;
@@ -358,7 +359,7 @@ public class WebSPUtil {
 			e.printStackTrace();
 		}
 		WebUtil.logout(driver);
-		Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
+		Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 				UserDaoImpl.getstatus_id("已归档"));
 	
 
@@ -413,5 +414,88 @@ public class WebSPUtil {
 			}
 		}
 	}
+	
+	//杂项审批
+	public  static  void  zxSp1(WebDriver driver, KSDCase ksd,String username){
+		
+		login2(driver, username, ksd.getSp_password());
+		WebUtil.df(driver,By.linkText("客户")).click();
+		WebUtil.df(driver,By.linkText("其他款项")).click();
+		clickItemorder(driver, ksd.getLoginname());
+		
+		WebUtil.df(driver,By.linkText("同意")).click();
+		WebUtil.df(driver,By.name("remark")).sendKeys("同意");
+		WebUtil.df(driver,By.linkText("确认")).click();
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebUtil.logout(driver);
+		
+	}
+	//杂项审批
+		public  static  boolean  zxSp2(WebDriver driver, String email,
+				 KSDCase ksd){
+ 
+			boolean flag = false;
+			login2(driver, email, ksd.getSp_password());// "!123456"
+
+			// clickItem(driver, itename);
+
+			WebUtil.df(driver, By.linkText("商户")).click();
+
+			WebUtil.df(driver, By.linkText("放款管理")).click();
+			int height = driver.manage().window().getSize().height;
+			((JavascriptExecutor) driver).executeScript("window.scrollTo(0,"
+					+ (height * 2 + 500) + ")"); // 向下滑动
+			WebShop.clickShop(driver, ksd);
+
+			Select userSelect = new Select(
+					WebUtil.df(driver, By.id("orderby_type")));
+			userSelect.selectByVisibleText("按贷款时间倒序排列");
+
+			WebUtil.df(driver, By.linkText("筛选")).click();
+
+			((JavascriptExecutor) driver).executeScript("window.scrollTo(0,"
+					+ (height * 2 + 200) + ")"); // 向下滑动
+
+			WebUtil.df(driver, By.linkText("同意")).click();
+			if (driver.getCurrentUrl().contains("toLoanAgree")) {
+				// 银联
+				Select userSelect1 = new Select(WebUtil.df(driver,
+						By.id("payment_account")));
+
+				userSelect1.selectByIndex(1);
+
+				WebUtil.df(driver, By.id("financial_use")).sendKeys("测试专用");
+
+				WebUtil.df(driver, By.linkText("提交")).click();
+
+			} else {
+				driver.findElement(By.name("remark")).sendKeys("同意");
+			}
+
+			WebUtil.df(driver, By.linkText("确认")).click();
+
+			WebUtil.df(driver, By.linkText("确定")).click();
+
+			WebUtil.df(driver, By.className("cancel")).click();// 稍后再说
+			flag = true;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			WebUtil.logout(driver);
+ 
+			Assert.assertEquals(UserDaoImpl.getAdvanceStatue_id(ksd),11);
+	
+			
+			return flag;
+		
+		}
 
 }

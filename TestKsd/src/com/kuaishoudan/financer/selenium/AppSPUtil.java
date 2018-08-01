@@ -2,6 +2,7 @@ package com.kuaishoudan.financer.selenium;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
@@ -37,7 +38,7 @@ public class AppSPUtil {
 	}
 
 	// 申请合同**
-	public static KSDCase testSQHT(AppiumDriver<AndroidElement> driver,
+	public static KSDCase testSQHT(AndroidDriver<WebElement> driver,
 			KSDCase ksd) {
 		String actualstatue = "";
 		driver.manage().timeouts().implicitlyWait(115, TimeUnit.SECONDS);
@@ -90,7 +91,7 @@ public class AppSPUtil {
 	}
 
 	// (申请合同)-申请请款
-	public static KSDCase testHTSQQK(AppiumDriver<AndroidElement> driver,
+	public static KSDCase testHTSQQK(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, KSDCase ksd, String devicename) {
 		String actualstatue = "";
 		driver.manage().timeouts().implicitlyWait(115, TimeUnit.SECONDS);
@@ -231,7 +232,7 @@ public class AppSPUtil {
 	}
 
 	// 不出合同申请请款
-	public static KSDCase testBCSQQK(AppiumDriver<AndroidElement> driver,
+	public static KSDCase testBCSQQK(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, KSDCase ksd, String devicename) {
 		driver.manage().timeouts().implicitlyWait(115, TimeUnit.SECONDS);
 		int aa = 0, countImg = 0;
@@ -318,7 +319,7 @@ public class AppSPUtil {
 				.sendKeys(ksd.getVin());// 车架号
 
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-		List<AndroidElement> ssds = driver.findElements(By
+		List<WebElement> ssds = driver.findElements(By
 				.id("com.kuaishoudan.financer:id/text_content"));
 		ssds.get(1).sendKeys("0.02");// 购置税
 		ssds.get(2).sendKeys("0");// 保险费
@@ -440,7 +441,7 @@ public class AppSPUtil {
 	 * @param driver
 	 * @return
 	 */
-	public static String upload(AppiumDriver<AndroidElement> driver) {
+	public static String upload(AndroidDriver<WebElement> driver) {
 		String acstatue = "";
 		try {
 			/*
@@ -526,7 +527,7 @@ public class AppSPUtil {
 	}
 
 	// BD经理登录审批
-	public static boolean loginBD(AppiumDriver<AndroidElement> driver,
+	public static boolean loginBD(AndroidDriver<WebElement> driver,
 			String username, KSDCase ksd) {
 		boolean flag = false;
 
@@ -589,7 +590,7 @@ public class AppSPUtil {
 	}
 
 	public static Map<String, String> getSPname(
-			AppiumDriver<AndroidElement> driver, KSDCase ksd)
+			AndroidDriver<WebElement> driver, KSDCase ksd)
 			throws InterruptedException, IOException {
 		Map<String, String> map = new HashMap<String, String>();
 		Thread.sleep(1500);
@@ -619,7 +620,7 @@ public class AppSPUtil {
 		}
 		Thread.sleep(3000);
 		driver.manage().timeouts().implicitlyWait(55, TimeUnit.SECONDS);
-		List<AndroidElement> statueitems = driver.findElements(By
+		List<WebElement> statueitems = driver.findElements(By
 				.id("com.kuaishoudan.financer:id/ll_status"));
 		for (int i = 0; i < statueitems.size(); i++) {
 			String statue = statueitems
@@ -692,7 +693,7 @@ public class AppSPUtil {
 	}
 
 	// 状态实际值
-	public static String getActstatue(AppiumDriver<AndroidElement> driver) {
+	public static String getActstatue(AndroidDriver<WebElement> driver) {
 		/*
 		 * String titletext =AppUtil.df(driver,
 		 * By.id("com.kuaishoudan.financer:id/toolbar_title")).getText();// 标题文本
@@ -726,7 +727,7 @@ public class AppSPUtil {
 
 	}
 
-	public static void sp6App(AppiumDriver<AndroidElement> driver, KSDCase ksd) {
+	public static void sp6App(AndroidDriver<WebElement> driver, KSDCase ksd) {
 
 		if (ksd.getCommit_type() == 2) {
 			AppUtil.df(driver,

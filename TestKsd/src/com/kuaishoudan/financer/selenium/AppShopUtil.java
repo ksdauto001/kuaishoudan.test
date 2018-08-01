@@ -1,6 +1,7 @@
 package com.kuaishoudan.financer.selenium;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +21,7 @@ public class AppShopUtil {
 	}
 
 	// 新建商户以及备案信息
-	public static ShopBeanCase createShop(AppiumDriver<AndroidElement> driver,
+	public static ShopBeanCase createShop(AndroidDriver<WebElement> driver,
 			ShopBeanCase shopBeanCase, String devicename) throws Exception {
 
 		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_menu"))

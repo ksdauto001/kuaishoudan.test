@@ -54,7 +54,7 @@ import com.kuaishoudan.financer.util.RandomValue;
 
 public class AppUtil {
 
-	public static AppiumDriver<AndroidElement> getDriver()
+	public static AndroidDriver<WebElement> getDriver()
 			throws MalformedURLException {
 
 		String apkName = "";
@@ -77,7 +77,7 @@ public class AppUtil {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 
 		capabilities.setCapability("automationName", "uiautomator2");
-		capabilities.setCapability("newCommandTimeout", 4080);
+		capabilities.setCapability("newCommandTimeout", 400);
 		capabilities.setCapability("device", "Android");
 		capabilities.setCapability("platformName", "Android");
 		// 虚拟机
@@ -100,12 +100,12 @@ public class AppUtil {
 		capabilities.setCapability("app-package", "com.kuaishoudan.financer");
 		capabilities.setCapability("app-activity",
 				"com.kuaishoudan.financer.activity.act.WelcomeActivity");
-		AppiumDriver driver = new AndroidDriver<AndroidElement>(new URL(
+		AndroidDriver<WebElement> driver = new AndroidDriver<WebElement>(new URL(
 				"http://127.0.0.1:4723/wd/hub"), capabilities);
-		/*
-		 * driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver,
-		 * new AlertListener(), new ElementListener());
-		 */
+		
+	/*	   driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver,
+		   new AlertListener(), new ElementListener());*/
+		 
 
 		return driver;
 
@@ -230,10 +230,7 @@ public class AppUtil {
 		int height = driver.manage().window().getSize().height;
 		// System.out.print(width+"@"+height);
 		for (int i = 0; i < 1; i++)
-		/*
-		 * driver.swipe(width / 2, height * 3 / 4, width / 2, height / 4,
-		 * during);
-		 */
+	
 		{
 			TouchAction action1 = new TouchAction(driver)
 					.press(PointOption.point(width / 2, height * 3 / 4))
@@ -290,7 +287,7 @@ public class AppUtil {
 	 * @param k
 	 */
 
-	public static boolean createUser(AppiumDriver<AndroidElement> driver,
+	public static boolean createUser(AndroidDriver<WebElement> driver,
 			String devicename, int k, KSDCase ksd) {
 		boolean flag = false;
 
@@ -362,7 +359,7 @@ public class AppUtil {
 	 * @param devicename
 	 * @param k
 	 */
-	public static KSDCase addGr(AppiumDriver<AndroidElement> driver,
+	public static KSDCase addGr(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, String devicename, int k, KSDCase ksd) {
 
 		String actualstatue = "";
@@ -383,6 +380,8 @@ public class AppUtil {
 			flag = true;
 			driver.findElement(
 					By.id("com.kuaishoudan.financer:id/toolbar_back")).click();
+		}catch (org.openqa.selenium.WebDriverException ex) {
+			
 		}
 		if (!flag) {
 			try {
@@ -641,7 +640,7 @@ public class AppUtil {
 	 * @param devicename
 	 * @param k
 	 */
-	public static KSDCase addQy(AppiumDriver<AndroidElement> driver,
+	public static KSDCase addQy(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, String devicename, int k, KSDCase ksd) {
 
 		String actualstatue = "";
@@ -660,6 +659,8 @@ public class AppUtil {
 			flag = true;
 			driver.findElement(
 					By.id("com.kuaishoudan.financer:id/toolbar_back")).click();
+		}catch (org.openqa.selenium.WebDriverException ex) {
+			
 		}
 		if (!flag) {
 			try {
@@ -916,7 +917,7 @@ public class AppUtil {
 		return ksd;
 	}
 
-	public static KSDCase addTest(AppiumDriver<AndroidElement> driver,
+	public static KSDCase addTest(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, String devicename, int i) {
 
 		KSDCase ksd = RandomValue.getRandom();
@@ -963,7 +964,7 @@ public class AppUtil {
 			 // String statue = AppSPUtil.getActstatue(driver);
 			 // Assert.assertEquals(statue, "待分配");
 			 
-			Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
+			Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 					UserDaoImpl.getstatus_id("待分配"));
 
 		}
@@ -973,7 +974,7 @@ public class AppUtil {
 	}
 
 	// 再次进件
-	public static int zcjj(AppiumDriver<AndroidElement> driver, KSDCase ksd) {
+	public static int zcjj(AndroidDriver<WebElement> driver, KSDCase ksd) {
 
 		try {
 			Thread.sleep(200);
@@ -1008,7 +1009,7 @@ public class AppUtil {
 	 * @param driver
 	 * @return
 	 */
-	public static String upload(final AppiumDriver<AndroidElement> driver,
+	public static String upload(final AndroidDriver<WebElement> driver,
 			KSDCase ksd) throws org.openqa.selenium.TimeoutException {
 		String acstatue = "";
 		int imgcount = ksd.getImgcount();
@@ -1192,7 +1193,7 @@ public class AppUtil {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			 	int usestatue = UserDaoImpl.getFinanstatue_id(ksd);
+			 	int usestatue = UserDaoImpl.getFinanStatue_id(ksd);
 
 			  	if (usestatue == 1) {
 			/*	int ss= driver.findElements(By.id("com.kuaishoudan.financer:id/toolbar_confirm")).size();
@@ -1246,7 +1247,7 @@ public class AppUtil {
 		return acstatue;
 	}
 
-	public static KSDCase addZjjtest(AppiumDriver<AndroidElement> driver,
+	public static KSDCase addZjjtest(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, String devicename, int i, KSDCase ksd) {
 		int gq = 0;
 		if (i == 0) {
@@ -1271,12 +1272,12 @@ public class AppUtil {
 		} else {// 个人贷款
 			ksd = addGr(driver, webdriver, devicename, i, ksd);
 		}
-		Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
+		Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 				UserDaoImpl.getstatus_id("待分配"));
 		return ksd;
 	}
 
-	public static void login(AppiumDriver<AndroidElement> driver,
+	public static void login(AndroidDriver<WebElement> driver,
 			String devicename, KSDCase ksd) {
 
 		try {
@@ -1301,7 +1302,7 @@ public class AppUtil {
 	}
 
 	// 登出
-	public static void logout(AppiumDriver<AndroidElement> driver) {
+	public static void logout(AndroidDriver<WebElement> driver) {
 
 		df(driver, By.id("com.kuaishoudan.financer:id/toolbar_menu")).click();// 菜单
 
@@ -1313,7 +1314,7 @@ public class AppUtil {
 				.click();// 确定)
 	}
 
-	public static boolean ElementExist(AppiumDriver<AndroidElement> driver,
+	public static boolean ElementExist(AndroidDriver<WebElement> driver,
 			By locator) {
 		try {
 			driver.findElement(locator);
@@ -1329,7 +1330,7 @@ public class AppUtil {
 	 * 
 	 * @param driver
 	 */
-	public static String getStatue(AppiumDriver<AndroidElement> driver) {
+	public static String getStatue(AndroidDriver<WebElement> driver) {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -1357,7 +1358,7 @@ public class AppUtil {
 	 * 
 	 * @param driver
 	 */
-	public static void look_status(AppiumDriver<AndroidElement> driver) {
+	public static void look_status(AndroidDriver<WebElement> driver) {
 		driver.manage().timeouts().implicitlyWait(18, TimeUnit.SECONDS);
 		// driver.findElement(By.id("com.kuaishoudan.financer:id/toolbar_back")).click();//返回按钮
 		/*
@@ -1379,7 +1380,7 @@ public class AppUtil {
 	 * 
 	 * @param driver
 	 */
-	public static void goBack1(AppiumDriver<AndroidElement> driver) {
+	public static void goBack1(AndroidDriver<WebElement> driver) {
 		try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
@@ -1404,7 +1405,7 @@ public class AppUtil {
 	 * 
 	 * @param driver
 	 */
-	public static void goBack0(AppiumDriver<AndroidElement> driver) {
+	public static void goBack0(AndroidDriver<WebElement> driver) {
 		driver.manage().timeouts().implicitlyWait(18, TimeUnit.SECONDS);
 		driver.findElement(By.id("com.kuaishoudan.financer:id/toolbar_back"))
 				.click();// 返回按钮
@@ -1417,7 +1418,7 @@ public class AppUtil {
 
 	}
 
-	public static String getIndexname(AppiumDriver<AndroidElement> driver) {
+	public static String getIndexname(AndroidDriver<WebElement> driver) {
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -1438,7 +1439,7 @@ public class AppUtil {
 	 * @param driver
 	 * @return
 	 */
-	public static String uploadQk(AppiumDriver<AndroidElement> driver,
+	public static String uploadQk(AndroidDriver<WebElement> driver,
 			int imgcount) {
 		String acstatue = "";
 		//imgcount=15;
@@ -1528,43 +1529,36 @@ public class AppUtil {
 	}
 
 	// 返点费用支出
-	public static void testFd(AppiumDriver<AndroidElement> driver,
+	public static void testFd(AndroidDriver<WebElement> driver,
 			String devicename, RequestPayout RequestPyout)
 			throws InterruptedException, IOException {
 
 		AppUtil.swipeToUp3(driver, 1000);// 向上滑动
-		Thread.sleep(1000);
-		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		Thread.sleep(500);
+
 		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
 				.get(0).click();
 		AppUtil.swipeToUp(driver, 1000);// 向上滑动
 		// 车款融资额返点
 
-		/*
-		 * Runtime.getRuntime().exec( "adb -s " + devicename +
-		 * " shell input text " + RequestPyout.getFinancing_back_point());
-		 * Thread.sleep(500);
-		 */
-		driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"))
-				.get(0).sendKeys("0.16");
 		Thread.sleep(500);
-		/*
-		 * // GPS返点 Runtime.getRuntime().exec( "adb -s " + devicename +
-		 * " shell input text " + RequestPyout.getGps_back_point());
-		 * Thread.sleep(500);
-		 * driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"
-		 * )) .get(1).click(); Thread.sleep(500); // 保险返点
-		 * Runtime.getRuntime().exec( "adb -s " + devicename +
-		 * " shell input text " + RequestPyout.getInsurance_back_point());
-		 * Thread.sleep(500);
-		 * driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"
-		 * )) .get(2).click(); Thread.sleep(1500); // 服务费返点
-		 * Runtime.getRuntime().exec( "adb -s " + devicename +
-		 * " shell input text " + RequestPyout.getService_back_point());
-		 * Thread.sleep(500);
-		 * driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"
-		 * )) .get(3).click();
-		 */
+
+		List<WebElement> fds = driver.findElements(By
+				.id("com.kuaishoudan.financer:id/text_content"));
+		fds.get(0).sendKeys(RequestPyout.getFinancing_back_point());
+
+		// GPS返点
+
+		fds.get(1).sendKeys(RequestPyout.getGps_back_point());
+
+		// 保险返点
+
+		fds.get(2).sendKeys(RequestPyout.getInsurance_back_point());
+
+		// 服务费返点
+
+		fds.get(3).sendKeys(RequestPyout.getService_back_point());
+
 		Thread.sleep(500);
 		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
 				.get(0).click();
@@ -1572,120 +1566,98 @@ public class AppUtil {
 
 	// 新车抵押费用支出
 
-	public static void testDy(AppiumDriver<AndroidElement> driver,
+	public static void testDy(AndroidDriver<WebElement> driver,
 			String devicename, RequestPayout RequestPyout)
 			throws InterruptedException, IOException {
 
 		AppUtil.swipeToUp3(driver, 1000);// 向上滑动
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
-				.get(1).click();
+		Thread.sleep(500);
+	List<WebElement> ivts=	driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"));
+		System.out.println(ivts.size());
+	ivts.get(1).click();
 		AppUtil.swipeToUp(driver, 1000);// 向上滑动
-		Thread.sleep(2000);
+		Thread.sleep(500);
 
 		// 抵押费
-		Runtime.getRuntime().exec(
-				"adb -s " + devicename + " shell input text "
-						+ RequestPyout.getMortgage_free());
-		Thread.sleep(500);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"))
-				.get(0).click();
-		Thread.sleep(1500);
+	 
+	List<WebElement> dys=	driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"));
+				dys.get(0).sendKeys(RequestPyout.getMortgage_free() );
+ 
 		// 解押费
-		Runtime.getRuntime().exec(
-				"adb -s " + devicename + " shell input text "
-						+ RequestPyout.getSign_free());
-		Thread.sleep(500);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"))
-				.get(1).click();
-		Thread.sleep(1000);
+ 
+		dys.get(1).sendKeys(RequestPyout.getSign_free() );
+ 
 		// 上牌抵押地
-		driver.findElement(
+		df(driver,
 				By.id("com.kuaishoudan.financer:id/tv_chekuan_shangpaidiya"))
 				.click();
-		driver.findElement(By.id("com.kuaishoudan.financer:id/options3"))
+		df(driver,By.id("com.kuaishoudan.financer:id/options3"))
 				.click();// 城市
 		int width = driver.manage().window().getSize().width;
 		int height = driver.manage().window().getSize().height;
-		/*
-		 * driver.swipe(width * 2 / 3, height - 80, width * 2 / 3, height - 280,
-		 * 800);
-		 */
-		TouchAction action1 = new TouchAction(driver)
+ 
+		/*TouchAction action1 = new TouchAction(driver)
 				.press(PointOption.point(width * 2 / 3, height - 80))
 				.waitAction(WaitOptions.waitOptions(duration))
 				.moveTo(PointOption.point(width * 2 / 3, height - 280))
 				.release();
-		action1.perform();
+		action1.perform();*/
 
-		driver.findElement(By.id("com.kuaishoudan.financer:id/btnSubmit"))
-				.click();// 城市确定
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		df(driver, By.id("com.kuaishoudan.financer:id/btnSubmit")).click();// 城市确定
+ 
 
 		// 上牌方
-		driver.findElement(
+		df(driver,
 				By.id("com.kuaishoudan.financer:id/tv_chekuan_shangpaifang"))
 				.click();
 		driver.findElements(By.id("com.kuaishoudan.financer:id/text_select"))
 				.get(RequestPyout.getRegistration_party()).click();
 
 		// 抵押方
-		driver.findElement(
+		df(driver,
 				By.id("com.kuaishoudan.financer:id/tv_chekuan_diyafang"))
 				.click();
 		driver.findElements(By.id("com.kuaishoudan.financer:id/text_select"))
 				.get(RequestPyout.getRegistration_party()).click();
-
-		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
-				.get(1).click();
+		Thread.sleep(500);
+//		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
+		ivts.get(1).click();
 
 	}
 
 	// 新车杂项费用支出
 
-	public static void testZx(AppiumDriver<AndroidElement> driver,
+	public static void testZx(AndroidDriver<WebElement> driver,
 			String devicename, RequestPayout RequestPyout)
 			throws InterruptedException, IOException {
-
+		Thread.sleep(300);
 		AppUtil.swipeToUp3(driver, 1000);// 向上滑动
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
-				.get(2).click();
+		Thread.sleep(500);
+		List<WebElement> ivts=	driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
+		;System.out.println(ivts.size());
+		ivts.get(2).click();
 		AppUtil.swipeToUp(driver, 1000);// 向上滑动
 		// GPS安装费
-		Runtime.getRuntime().exec(
-				"adb -s " + devicename + " shell input text "
-						+ RequestPyout.getGps_installation());
+
 		Thread.sleep(500);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"))
-				.get(0).click();
-		Thread.sleep(1500);
+		List<WebElement> zxs = driver.findElements(By
+				.id("com.kuaishoudan.financer:id/text_content"));
+		zxs.get(0).sendKeys(RequestPyout.getGps_installation());
+
 		// 前置利息
-		Runtime.getRuntime().exec(
-				"adb -s " + devicename + " shell input text "
-						+ RequestPyout.getInterest_on_pre());
-		Thread.sleep(500);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"))
-				.get(1).click();
-		Thread.sleep(1500);
+
+		zxs.get(1).sendKeys(RequestPyout.getInterest_on_pre());
+
 		// 退款
-		Runtime.getRuntime().exec(
-				"adb -s " + devicename + " shell input text "
-						+ RequestPyout.getRefund());
-		Thread.sleep(500);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"))
-				.get(2).click();
-		Thread.sleep(1500);
+
+		zxs.get(2).sendKeys(RequestPyout.getRefund());
+
 		// 车价贷款(返款)
-		Runtime.getRuntime().exec(
-				"adb -s " + devicename + " shell input text "
-						+ RequestPyout.getThe_car_loan());
+
+		zxs.get(3).sendKeys(RequestPyout.getThe_car_loan());
 		Thread.sleep(500);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/text_content"))
-				.get(3).click();
-		Thread.sleep(1500);
-		driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
-				.get(2).click();
+		//driver.findElements(By.id("com.kuaishoudan.financer:id/iv_is_show"))
+		ivts.get(2).click();
 
 	}
 

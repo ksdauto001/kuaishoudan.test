@@ -42,7 +42,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 
 public class TestUser {
-	public AppiumDriver<AndroidElement> driver;
+	public AndroidDriver<WebElement> driver;
 	String devicename = "";
 	public WebDriver webdriver;
 	static KSDCase ksd = null;
@@ -52,7 +52,7 @@ public class TestUser {
 	DBUtil db = null;
 
 	/**
-	 * 不出合同-审批流 （客户）
+	 * 不出合同-审批流（客户）
 	 * 
 	 * @param args
 	 * @throws Exception
@@ -79,17 +79,20 @@ public class TestUser {
 			case 4:
 				ct.webDksp();// 已录
 				ct.appBsqht();// App不申请合同-申请请款
+				ct.zxSp();//审批杂项
 				break;
 			case 5:
 				ct.webDksp();// 已录
 				ct.appBsqht();// App不申请合同-申请请款
 				ct.sp1();
+				ct.zxSp();//审批杂项
 				break;
 			case 6:
 				ct.webDksp();// 已录
 				ct.appBsqht();// App不申请合同-申请请款
 				ct.sp1();
 				ct.sp2();
+				ct.zxSp();//审批杂项
 				break;
 			case 7:
 				ct.webDksp();// 已录
@@ -97,6 +100,7 @@ public class TestUser {
 				ct.sp1();
 				ct.sp2();
 				ct.sp3();
+				ct.zxSp();//审批杂项
 				break;
 			case 8:
 				ct.webDksp();// 已录
@@ -105,6 +109,7 @@ public class TestUser {
 				ct.sp2();
 				ct.sp3();
 				ct.sp4();
+				ct.zxSp();//审批杂项
 				break;
 			case 9:
 				ct.webDksp();// 已录
@@ -114,6 +119,7 @@ public class TestUser {
 				ct.sp3();
 				ct.sp4();
 				ct.sp5();
+				ct.zxSp();//审批杂项
 				break;
 			case 10:
 				ct.webDksp();// 已录
@@ -124,6 +130,7 @@ public class TestUser {
 				ct.sp4();
 				ct.sp5();
 				ct.sp6();
+				ct.zxSp();//审批杂项
 				break;
 			case 11:
 				ct.webDksp();// 已录
@@ -135,6 +142,7 @@ public class TestUser {
 				ct.sp5();
 				ct.sp6();
 				ct.sp7();
+				ct.zxSp();//审批杂项
 				break;
 			default:
 			}
@@ -220,7 +228,7 @@ public class TestUser {
 					}
 				}
 				Thread.sleep(100);
-			int	tgk = driver.findElements(
+				int	tgk = driver.findElements(
 						By.id("com.kuaishoudan.financer:id/tv_guide_know"))
 						.size();
 
@@ -232,6 +240,8 @@ public class TestUser {
 				}
 			}
 
+		}catch (org.openqa.selenium.WebDriverException e) {
+			
 		}
 
 	}
@@ -329,7 +339,7 @@ public class TestUser {
 		}
 
 	}
-
+	
 	// 请款审批同意专员
 	public void sp1() {
 		itename = ksd.getLoginname();
@@ -506,6 +516,43 @@ public class TestUser {
 		driver.quit();
 		webdriver.quit();
 		db.closeConn1();
+
+	}
+
+	public void zxSp() {
+		if (ksd.getZxsp() == 1) {
+
+			List<Employee> zxnames = UserDaoImpl.getSpZxName(ksd);
+			String prename = "";
+			int count = zxnames.size();
+			for (int j = 0; j < count; j++) {
+				for (int i = 0; i < zxnames.size(); i++) {
+					Employee ep = zxnames.get(i);
+					System.out.println(ep.getAccount());
+					if (ep.getDesc().equals("运营支持专员")) {
+						System.out.println(ep.getUsername());
+						WebSPUtil.zxSp1(webdriver, ksd, ep.getAccount());
+						prename = ep.getUsername();
+						zxnames.remove(i);
+						break;
+					} else if (ep.getDesc().equals("BD经理")) {
+						System.out.println(ep.getUsername());
+						AppSPUtil.loginBD(driver, ep.getAccount(), ksd);
+						AppUtil.login(driver, devicename, ksd);// 登录
+						prename = ep.getUsername();
+						zxnames.remove(i);
+						break;
+					} else if (ep.getDesc().equals("财务专员")) {
+						System.out.println(ep.getUsername());
+						WebSPUtil.zxSp2(webdriver, ep.getAccount(), ksd); // 请款审批同意专员
+						prename = ep.getUsername();
+						zxnames.remove(i);
+						break;
+					}
+				}
+			}
+
+		}
 
 	}
 }

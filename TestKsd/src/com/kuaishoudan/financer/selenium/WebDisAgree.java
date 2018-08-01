@@ -1,6 +1,7 @@
 package com.kuaishoudan.financer.selenium;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 
 import java.net.MalformedURLException;
@@ -283,7 +284,7 @@ public class WebDisAgree {
 		return ksd;
 	}
 
-	public static KSDCase testDisAgreeQk(AppiumDriver<AndroidElement> driver,
+	public static KSDCase testDisAgreeQk(AndroidDriver<WebElement> driver,
 			KSDCase ksd) {
 		// driver.findElement(By.id("com.kuaishoudan.financer:id/text_name")).click();//
  
@@ -343,7 +344,7 @@ public class WebDisAgree {
 	}
 
 	// BD经理登录审批
-	public static boolean loginBD(AppiumDriver<AndroidElement> driver,
+	public static boolean loginBD(AndroidDriver<WebElement> driver,
 			String username,KSDCase ksd) {
 		boolean flag = false;
 		try {

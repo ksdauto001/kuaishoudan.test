@@ -15,6 +15,7 @@ import com.kuaishoudan.financer.bean.Employee;
 import com.kuaishoudan.financer.bean.Finance;
 import com.kuaishoudan.financer.bean.FinanceAdvence;
 import com.kuaishoudan.financer.bean.KSDCase;
+import com.kuaishoudan.financer.selenium.AppUtil;
 import com.kuaishoudan.financer.util.DBUtil;
 import com.kuaishoudan.financer.util.RandomValue;
 
@@ -52,7 +53,7 @@ public class UserDaoImpl {
 		 */
 		KSDCase ksd = RandomValue.getRandom();
 		;
-		ksd.setIdentitynum("340203198604260749");
+		ksd.setIdentitynum("653226200903048932");
 		ksd.setIdentitytype(1);
 		ksd.setCartype(0);
 		// getLoanname(ksd);
@@ -70,8 +71,12 @@ public class UserDaoImpl {
 		 * System.out.println(list.get(i).getUsername()+","
 		 * +list.get(i).getAccount()+list.get(i).getDesc()); }
 		 */
-		int faf = getUser_Count(ksd);
-		System.out.println("" + faf);
+		//int faf = getUser_Count(ksd);
+	/*	List<Employee> fsds=getSpZxName(ksd);
+		for(int i=0;i<fsds.size();i++)
+		System.out.println(fsds.get(i).getAccount());*/
+	int asd=	UserDaoImpl.getAdvanceStatue_id(ksd);
+	System.out.println(asd+"asd");
 	}
 
 	public static KSDCase getCustomer_KSD(String name) {
@@ -417,7 +422,7 @@ public class UserDaoImpl {
 		return have_system;
 	}
 
-	public static int getFinanstatue_id(KSDCase ksd) {
+	public static int getFinanStatue_id(KSDCase ksd) {
 		int statue = 0;
 
 		String sql = " select status from tb_finance where customer_id=(select id from tb_customer where id_num=?) order by id desc  limit 1 ";
@@ -450,7 +455,39 @@ public class UserDaoImpl {
 		// System.out.println(statue);
 		return statue;
 	}
+	public static int getAdvanceStatue_id(KSDCase ksd) {
+		int statue = 0;
 
+		String sql = " select  tfa.advance_status from tb_finance  tf,tb_finance_advance tfa where tf.id=tfa.finance_id and tf.customer_id=(select id from tb_customer where id_num=?) order by tfa.id desc  limit 1  ";
+		DBUtil util = new DBUtil();
+		Connection conn = util.openConnection();
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+
+			pstmt = conn.prepareStatement(sql);
+
+			if (ksd.getIdentitytype() == 1) {
+				pstmt.setString(1, ksd.getIdentitynum());
+			} else if (ksd.getIdentitytype() == 2) {
+				pstmt.setString(1, ksd.getJgid());
+			}
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				statue = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		} finally {
+			util.closeConn(conn, rs, pstmt);
+		}
+		// System.out.println(statue);
+		return statue;
+	}
 	public static List<Integer> getLoanname(KSDCase ksd) {
 
 		List<Integer> list = new ArrayList<Integer>();
@@ -698,12 +735,107 @@ public class UserDaoImpl {
 
 			// list2.retainAll(list1);
 		} catch (SQLException e) {
-			System.out.println(e);
+			//System.out.println(e);
 			e.printStackTrace();
 		} finally {
 			util.closeConn(conn, rs, pstmt);
 		}
 		return list;
 
+	}
+	
+	//判断杂项审批人
+	public static List<Employee> getSpZxName(KSDCase ksd) {
+
+		List<Integer> list2 = new ArrayList<Integer>();
+		List<Employee> list =new ArrayList<Employee>();
+		int type=ksd.getCartype();
+		String zxname="";
+		switch (ksd.getZx()) {
+		case 1:
+			if(type==0){
+			zxname="北京新车，廊坊，张家口返点费用支出"; // 返点
+			}else{
+			zxname="北京二手车返点费用支出"; // 返点	
+			}
+			break;
+		case 2:
+			if(type==0){
+			zxname="北京新车，廊坊，张家口抵押费用支出";// 抵押费
+			}else{
+			zxname="北京二手车抵押费用支出";// 抵押费
+			}
+			break;
+		case 3:
+			if(type==0){
+			zxname="北京新车杂项费用支出";// 杂项
+			}else{
+			zxname="北京二手车杂项费用支出";// 杂项	
+			}
+			break;
+		default:
+			System.out.println("default");
+		}
+		String sql = "  select responsible from tb_workflow  tbw  where applyto_city=100 and status=1 and   applyto_business=? and type=2   and name=?; ";
+		String sql2 ="select  tbe.`name`,tbe.account ,tbe.position_desc from  tb_employee tbe where    id in  (?)";
+		DBUtil util = new DBUtil();
+		Connection conn = util.openConnection();
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+	 
+		try {
+
+			pstmt = conn.prepareStatement(sql);
+ 
+			pstmt.setInt(1,type );
+		 
+			pstmt.setString(2, zxname);
+			
+			rs = pstmt.executeQuery();
+			String ff="";
+			while (rs.next()) {
+
+
+				ff = rs.getString("responsible");
+				// list2.add(ff);
+				// System.out.println(ff);
+				String[] ss2 = ff.split(",");
+
+				for (String ss : ss2) {
+					int ss1 = Integer.parseInt(ss);
+					list2.add(ss1);
+
+				}
+
+			
+			}
+			
+			for (int k = 0; k < list2.size(); k++) {
+				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+				pstmt2.setString(1, "" + list2.get(k));
+				ResultSet rs2 = pstmt2.executeQuery();
+
+				while (rs2.next()) {
+
+					String name = rs2.getString("name");
+					String account = rs2.getString("account");
+					String desc = rs2.getString("position_desc");
+					// System.out.println(account);
+					Employee ep = new Employee();
+					ep.setUsername(name);
+					ep.setAccount(account);
+					ep.setDesc(desc);
+					list.add(ep);
+
+		 
+				}
+			}
+		} catch (SQLException e) {
+			//System.out.println(e);
+			e.printStackTrace();
+		} finally {
+			util.closeConn(conn, rs, pstmt);
+		}
+		return list;
 	}
 }

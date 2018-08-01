@@ -2,6 +2,7 @@ package com.kuaishoudan.financer.selenium;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.kuaishoudan.financer.bean.KSDCase;
 import com.kuaishoudan.financer.bean.RequestPayout;
@@ -24,7 +26,7 @@ import com.kuaishoudan.financer.util.IdCardGenerator;
 
 public class ZcjjUtil {
 
-	public static KSDCase sqhtZCJJ(AppiumDriver<AndroidElement> driver,
+	public static KSDCase sqhtZCJJ(AndroidDriver<WebElement> driver,
 			KSDCase ksd) {
 		String actualstatue = "";
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -76,7 +78,7 @@ public class ZcjjUtil {
 		return ksd;
 	}
 
-	public static KSDCase zcjjHTSQQK(AppiumDriver<AndroidElement> driver,
+	public static KSDCase zcjjHTSQQK(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, KSDCase ksd, String devicename) {
 		String actualstatue = "";
 		WebUtil.login(webdriver, ksd);// 登录
@@ -229,7 +231,7 @@ public class ZcjjUtil {
 	}
 
 	public static Map<String, String> getSPname(
-			AppiumDriver<AndroidElement> driver, KSDCase ksd)
+			AndroidDriver<WebElement> driver, KSDCase ksd)
 			throws InterruptedException, IOException {
 		Map<String, String> map = new HashMap<String, String>();
 		;
@@ -263,7 +265,7 @@ public class ZcjjUtil {
 			// driver.findElement(By.id("com.kuaishoudan.financer:id/text_customer_look_status")).click();//查看进度
 		}
 		Thread.sleep(1000);
-		List<AndroidElement> statueitems = driver.findElements(By
+		List<WebElement> statueitems = driver.findElements(By
 				.id("com.kuaishoudan.financer:id/ll_status"));
 		for (int i = 0; i < statueitems.size(); i++) {
 			String statue = statueitems
@@ -327,7 +329,7 @@ public class ZcjjUtil {
 	}
 
 	// 不出合同申请请款
-	public static KSDCase testBCSQQK(AppiumDriver<AndroidElement> driver,
+	public static KSDCase testBCSQQK(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, KSDCase ksd, String devicename) {
 		WebUtil.login(webdriver, ksd);// 登录
 		List<Integer> list = WebOrgan.getImge2(webdriver, ksd);
@@ -500,7 +502,7 @@ public class ZcjjUtil {
 	}
 
 	// BD经理登录审批
-	public static boolean loginBD(AppiumDriver<AndroidElement> driver,
+	public static boolean loginBD(AndroidDriver<WebElement> driver,
 			String username) {
 		boolean flag = false;
 		driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
@@ -597,7 +599,7 @@ public class ZcjjUtil {
 	}
 
 	// 状态实际值
-	public static String getActstatue(AppiumDriver<AndroidElement> driver) {
+	public static String getActstatue(AndroidDriver<WebElement> driver) {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -624,7 +626,7 @@ public class ZcjjUtil {
 	 * 
 	 * @param driver
 	 */
-	public static String getStatue(AppiumDriver<AndroidElement> driver) {
+	public static String getStatue(AndroidDriver<WebElement> driver) {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -647,7 +649,7 @@ public class ZcjjUtil {
 
 	}
 
-	public static void sp6App(AppiumDriver<AndroidElement> driver, KSDCase ksd) {
+	public static void sp6App(AndroidDriver<WebElement> driver, KSDCase ksd) {
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
 		driver.findElements(By.id("com.kuaishoudan.financer:id/text_product"))

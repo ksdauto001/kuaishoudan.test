@@ -212,7 +212,7 @@ public class WebUtil {
 
 		clickItem(driver, ksd.getLoginname());
 
-		Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
+		Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 				UserDaoImpl.getstatus_id("已分配"));
 
 		df(driver, By.linkText("开始录入")).click();
@@ -237,7 +237,7 @@ public class WebUtil {
 
 		df(driver, By.linkText("通知审核结果")).click();
 
-		dfs(driver, By.name("type")).get(1).click();
+	
 
 		/*
 		 * driver.manage().timeouts().implicitlyWait(18, TimeUnit.SECONDS);
@@ -245,8 +245,10 @@ public class WebUtil {
 		 * "document.getElementById('realLoanAmount').setAttribute('value', '0.0001');;"
 		 * );
 		 */
-
-		df(driver, By.name("real_loan_amount")).sendKeys("0.0001");
+		if(ksd.getReal_loan_amount().equals("0")){
+		dfs(driver, By.name("type")).get(1).click();
+		df(driver, By.name("real_loan_amount")).sendKeys(ksd.getReal_loan_amount());
+		}
 		// driver.findElement(By.name("real_loan_amount")).sendKeys("0.0001");
 
 		df(driver, By.name("purchase_tax")).sendKeys(ksd.getPurchase_tax());// 购置税
@@ -254,7 +256,7 @@ public class WebUtil {
 		df(driver, By.name("insurance")).sendKeys(ksd.getInsurance());// 保险费
 		df(driver, By.name("service_charge")).sendKeys(ksd.getService_charge());// 服务费
 
-		Assert.assertEquals(UserDaoImpl.getFinanstatue_id(ksd),
+		Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 				UserDaoImpl.getstatus_id("已录入"));
 
 		df(driver, By.id("review_sub")).click();// 确定按钮

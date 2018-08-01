@@ -1,6 +1,7 @@
 package com.kuaishoudan.financer.util;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 
 import java.io.IOException;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
+import org.openqa.selenium.WebElement;
 
 import com.kuaishoudan.financer.bean.KSDCase;
 import com.kuaishoudan.financer.bean.RequestPayout;
@@ -436,13 +439,13 @@ public class RandomValue {
 
 	}
 
-	public static KSDCase getKSD(AppiumDriver<AndroidElement> driver) {
+	public static KSDCase getKSD(AndroidDriver<WebElement> driver) {
 		KSDCase ksd = UserDaoImpl.getCustomer_KSD(AppUtil.getIndexname(driver));
 		return ksd;
 
 	}
 
-	public static KSDCase getRandom(AppiumDriver<AndroidElement> driver,
+	public static KSDCase getRandom(AndroidDriver<WebElement> driver,
 			KSDCase ksd) {
 
 		IdCardGenerator g = new IdCardGenerator();
@@ -481,8 +484,10 @@ public class RandomValue {
 		int rzqx = (int) (Math.random() * 4);
 		int registtype = (int) (1 + Math.random() * 3);
 		int pledge = (int) (1 + Math.random() * 3);
-
+		int ftype = (int) (Math.random() * 5);
+		String[] flows={"A","B","C","D","E"};
 		RequestPayout rp = RandomValue.getMoney();
+		ksd.setFlow(flows[ftype]);//flow
 		ksd.setQygr(loantype);// 2企业1个人
 		ksd.setBusinessname("qiyemc");// 企业名称
 		ksd.setBusinessid("yingyezzh");// 企业执照
@@ -493,10 +498,10 @@ public class RandomValue {
 		ksd.setSqdk(sqdk);// 申请贷款sqdk
 		ksd.setHkqs(rzqx);// 融资期限rzqx
 		ksd.setRemark("beizhu");// 备注
-		ksd.setPurchase_tax("" + 0);// 购置税purchase_tax
-		ksd.setGps_charge("" + 0);// gps费gps_charge
-		ksd.setInsurance("" + 0);// 保险费insurance
-		ksd.setService_charge("" + 0);// 服务费service_charge
+		ksd.setPurchase_tax(purchase_tax);// 购置税purchase_tax
+		ksd.setGps_charge(gps_charge);// gps费gps_charge
+		ksd.setInsurance(insurance);// 保险费insurance
+		ksd.setService_charge(service_charge);// 服务费service_charge
 		ksd.setVin(g.getItemID(17));// 车架号
 		ksd.setRegisttype(registtype);// 上牌方1,2,3
 		ksd.setPledge(pledge);// 抵押方1,2,3
@@ -553,9 +558,11 @@ public class RandomValue {
 		int rzqx = (int) (Math.random() * 4);
 		int registtype = (int) (1 + Math.random() * 3);
 		int pledge = (int) (1 + Math.random() * 3);
-
+		int ftype = (int) (Math.random() * 5);
+		String[] flows={"A","B","C","D","E"};
 		KSDCase ksd = new KSDCase();
 		RequestPayout rp = RandomValue.getMoney();
+		ksd.setFlow(flows[ftype]);//flow
 		ksd.setUsername(getChineseName());// 名字
 		ksd.setPhone(getTel());// 手机号
 		ksd.setAddress("address2");// 地址
@@ -572,10 +579,10 @@ public class RandomValue {
 		ksd.setSqdk(sqdk);// 申请贷款sqdk 25
 		ksd.setHkqs(rzqx);// 融资期限rzqx0
 		ksd.setRemark("beizhu");// 备注
-		ksd.setPurchase_tax("" + 0);// 购置税purchase_tax
-		ksd.setGps_charge("" + 0);// gps费gps_charge
-		ksd.setInsurance("" + 0);// 保险费insurance
-		ksd.setService_charge("" + 0);// 服务费service_charge
+		ksd.setPurchase_tax(purchase_tax);// 购置税purchase_tax
+		ksd.setGps_charge(gps_charge);// gps费gps_charge
+		ksd.setInsurance(insurance);// 保险费insurance
+		ksd.setService_charge(service_charge);// 服务费service_charge
 		ksd.setVin(g.getItemID(17));// 车架号
 		ksd.setRegisttype(registtype);// 上牌方1,2,3
 		ksd.setPledge(pledge);// 抵押方1,2,3
@@ -604,13 +611,17 @@ public class RandomValue {
 			ksd.setLoginname(properties.getProperty("login_name"));
 			ksd.setLoginemail(properties.getProperty("login_email"));
 			ksd.setPwd(properties.getProperty("login_password"));
-			ksd.setFlow(properties.getProperty("flow"));
+		
 			ksd.setSp_password(properties.getProperty("sp_password"));
 			ksd.setSssh_id(Integer.parseInt(properties.getProperty("supplier")));
 			ksd.setSssh_account(Integer.parseInt(properties
 					.getProperty("supp_account")));
 			ksd.setCommit_type(Integer.parseInt(properties
 					.getProperty("commit_type")));
+			String flow=properties.getProperty("flow");
+			if(!flow.equals("")){
+				ksd.setFlow(flow);
+			}
 			String cartype00 = properties.getProperty("cartype");
 			if (!cartype00.equals("")) {
 				System.out.println("--------------------");
@@ -618,6 +629,34 @@ public class RandomValue {
 			}
 			ksd.setInit_statue(Integer.parseInt(properties
 					.getProperty("init_statue")));
+			String rla=	properties.getProperty("real_loan_amount");
+			if(!rla.equals("")){
+			ksd.setReal_loan_amount(rla);//车价贷款变化
+			}
+			String pt=properties.getProperty("purchase_tax");//购置税
+			if(!pt.equals("")){
+			ksd.setPurchase_tax(pt);
+			}
+			String gc=properties.getProperty("gps_charge");//GPS费
+			if(!gc.equals("")){
+			ksd.setGps_charge(gc);
+			}
+			String ice=properties.getProperty("insurance");//保险费
+			if(!ice.equals("")){
+			ksd.setInsurance(ice);
+			}
+			String sce=properties.getProperty("service_charge");//服务费
+			if(!sce.equals("")){
+			ksd.setService_charge(sce);
+			}
+			
+			String deduction=properties.getProperty("deduction");//APP扣除款项
+			if(!deduction.equals("")){
+				ksd.setDeduction(Double.parseDouble(deduction));			
+			}
+				
+			ksd.setZx(Integer.parseInt(properties.getProperty("zx")));
+			ksd.setZxsp(Integer.parseInt(properties.getProperty("zxsp")) );
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

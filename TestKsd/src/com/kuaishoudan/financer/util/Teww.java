@@ -83,7 +83,13 @@ public class Teww {
 		Map<String, String> expect = CaseUtil.getAdvance(ksd);
 		Assert.assertEquals(actual, expect);*/
 	 
-		ff();
+	//	ff();
+	
+		String[] flows={"A","B","C","D","E"};
+		for(int i=0;i<10;i++){
+			int ftype = (int) (Math.random() * 5);
+			System.out.println(flows[ftype]);
+		}
 	}
 
 	public static void ff() {
