@@ -77,7 +77,7 @@ public class AppUtil {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 
 		capabilities.setCapability("automationName", "uiautomator2");
-		capabilities.setCapability("newCommandTimeout", 400);
+		capabilities.setCapability("newCommandTimeout", 4000);
 		capabilities.setCapability("device", "Android");
 		capabilities.setCapability("platformName", "Android");
 		// 虚拟机
@@ -488,7 +488,7 @@ public class AppUtil {
 
 				try {
 					try {
-						Thread.sleep(100);
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -522,6 +522,13 @@ public class AppUtil {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 
+				}catch (org.openqa.selenium.WebDriverException e) {
+						// TODO Auto-generated catch block
+					//	e.printStackTrace();
+					df(
+							driver,
+							By.id("com.kuaishoudan.financer:id/text_product"))
+							.click();// 第一个产品
 				}
 				// _________
 
@@ -786,7 +793,7 @@ public class AppUtil {
 
 				try {
 					try {
-						Thread.sleep(100);
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -821,6 +828,13 @@ public class AppUtil {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 
+				}catch (org.openqa.selenium.WebDriverException e) {
+					// TODO Auto-generated catch block
+				//	e.printStackTrace();
+				df(
+						driver,
+						By.id("com.kuaishoudan.financer:id/text_product"))
+						.click();// 第一个产品
 				}
 
 				try {
@@ -982,10 +996,12 @@ public class AppUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		df(driver, By.id("com.kuaishoudan.financer:id/text_name")).click();// 首页列表
+
 
 		int a = UserDaoImpl.getUser_Count(ksd);
 		if (a == 1) {
+			
+			df(driver, By.id("com.kuaishoudan.financer:id/text_name")).click();// 首页列表
 			df(driver, By.id("com.kuaishoudan.financer:id/toolbar_loan_status"))
 					.click();
 
@@ -994,7 +1010,11 @@ public class AppUtil {
 					By.id("com.kuaishoudan.financer:id/text_customer_algin_jinjian"))
 					.click(); // 大于1次进件
 
-		} else {
+		}else if(a==2){
+			df(driver, By.id("com.kuaishoudan.financer:id/text_name")).click();// 首页列表
+			df(driver, By.id("com.kuaishoudan.financer:id/btn_add_loan"))
+			.click();// 第3次进件3
+		}else {
 			df(driver, By.id("com.kuaishoudan.financer:id/btn_add_loan"))
 					.click();// 第3次进件3
 
@@ -1250,7 +1270,7 @@ public class AppUtil {
 	public static KSDCase addZjjtest(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, String devicename, int i, KSDCase ksd) {
 		int gq = 0;
-		if (i == 0) {
+		if (i == 0||i==1) {
 			ksd = RandomValue.getKSD(driver);
 			ksd = RandomValue.getRandom(driver, ksd);
 			AppUtil.zcjj(driver, ksd);
@@ -1272,6 +1292,7 @@ public class AppUtil {
 		} else {// 个人贷款
 			ksd = addGr(driver, webdriver, devicename, i, ksd);
 		}
+		
 		Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
 				UserDaoImpl.getstatus_id("待分配"));
 		return ksd;

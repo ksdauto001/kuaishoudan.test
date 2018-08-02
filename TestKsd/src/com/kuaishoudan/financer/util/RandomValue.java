@@ -470,13 +470,13 @@ public class RandomValue {
 		}
 
 		String purchase_tax = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();// 999999999
+				.format(1 + Math.random() * 9999)) + "").toString();// 999999999
 		String gps_charge = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 9999999)) + "").toString();
+				.format(1 + Math.random() * 9999)) + "").toString();
 		String insurance = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();
+				.format(1 + Math.random() * 9999)) + "").toString();
 		String service_charge = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();
+				.format(1 + Math.random() * 9999)) + "").toString();
 
 		int idtype = (int) (1 + Math.random() * 2);
 		int loantype = (int) (1 + Math.random() * 2);
@@ -512,7 +512,7 @@ public class RandomValue {
 		 * ksd.setLoginemail("liuhl@jizhicar.com"); ksd.setPwd("!123456");
 		 */
 		ksd.setRequestpayout(rp);
-		ksd.setDeduction(Double.parseDouble(df2.format(2 + Math.random() * 100)));
+		ksd.setDeduction(Double.parseDouble(df2.format(2 + Math.random() * 500)));
 		ksd.setZjtr((int) (Math.random() * 4));
 
 		ksd = getPropeties(ksd);
@@ -544,13 +544,13 @@ public class RandomValue {
 		}
 
 		String purchase_tax = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();// 999999999
+				.format(1 + Math.random() * 9999)) + "").toString();// 999999999
 		String gps_charge = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 9999999)) + "").toString();
+				.format(1 + Math.random() * 9999)) + "").toString();
 		String insurance = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();
+				.format(1 + Math.random() * 9999)) + "").toString();
 		String service_charge = new BigDecimal(Double.parseDouble(df2
-				.format(1 + Math.random() * 999999)) + "").toString();
+				.format(1 + Math.random() * 9999)) + "").toString();
 
 		int idtype = (int) (1 + Math.random() * 2);
 		int loantype = (int) (1 + Math.random() * 2);
@@ -593,7 +593,7 @@ public class RandomValue {
 		 * ksd.setPwd("!123456");
 		 */
 		ksd.setRequestpayout(rp);
-		ksd.setDeduction(Double.parseDouble(df2.format(2 + Math.random() * 100)));
+		ksd.setDeduction(Double.parseDouble(df2.format(2 + Math.random() * 500)));
 		ksd.setZjtr((int) (Math.random() * 4));
 
 		ksd = getPropeties(ksd);
@@ -657,6 +657,19 @@ public class RandomValue {
 				
 			ksd.setZx(Integer.parseInt(properties.getProperty("zx")));
 			ksd.setZxsp(Integer.parseInt(properties.getProperty("zxsp")) );
+			
+			String carprice=properties.getProperty("carprice");//车辆价格
+			if(!carprice.equals("")){
+				ksd.setCarprice(Double.parseDouble(carprice));			
+			}
+			String sqdk=properties.getProperty("sqdk");//申请贷款
+			if(!sqdk.equals("")){
+				ksd.setSqdk(Double.parseDouble(sqdk));			
+			}
+			String rzqx=properties.getProperty("rzqx");//融资期限
+			if(!rzqx.equals("")){
+				ksd.setHkqs(Integer.parseInt(rzqx));			
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

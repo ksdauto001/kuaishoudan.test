@@ -26,6 +26,11 @@ import org.testng.annotations.Test;
 
 import com.kuaishoudan.financer.bean.KSDCase;
 import com.kuaishoudan.financer.dao.UserDaoImpl;
+import com.kuaishoudan.financer.flow.TestA;
+import com.kuaishoudan.financer.flow.TestB;
+import com.kuaishoudan.financer.flow.TestC;
+import com.kuaishoudan.financer.flow.TestD;
+import com.kuaishoudan.financer.flow.TestE;
 import com.kuaishoudan.financer.util.CaseUtil;
 import com.kuaishoudan.financer.util.IdCardGenerator;
 
@@ -134,18 +139,12 @@ public class WebSPUtil {
 		}
 		flag = true;
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		WebUtil.logout(driver);
-		Map<String, String> actual = UserDaoImpl.getAdvance(ksd);
-		Map<String, String> expect = CaseUtil.getAdvance(ksd);
-		Assert.assertEquals(actual, expect);
-
-		
-
 		return flag;
 	}
 
@@ -497,5 +496,38 @@ public class WebSPUtil {
 			return flag;
 		
 		}
+		public static void assertQK(KSDCase ksd,String flow){
+		switch (flow) {
+		case "A":
+			Assert.assertEquals(UserDaoImpl.getRisk_type(ksd), 1);
+			break;
+		case "B":
+			Assert.assertEquals(UserDaoImpl.getRisk_type(ksd), 2);
+			break;
+ 
 
+		}
+			Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
+					UserDaoImpl.getstatus_id("已请款"));
+
+			Map<String, String> actual = UserDaoImpl.getAdvance(ksd);
+			Map<String, String> expect = CaseUtil.getAdvance(ksd);
+			Assert.assertEquals(actual, expect);
+		}
+		public static void assertQK2(KSDCase ksd,String flow){
+			switch (flow) {
+			case "C":
+				Assert.assertEquals(UserDaoImpl.getRisk_type(ksd), 3);
+				break;
+			case "D": 
+				Assert.assertEquals(UserDaoImpl.getRisk_type(ksd), 4);
+				break;
+			case "E": 
+				Assert.assertEquals(UserDaoImpl.getRisk_type(ksd), 5);
+				break;
+
+			}
+	 
+		}
+	 
 }

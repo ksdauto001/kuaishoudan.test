@@ -77,6 +77,7 @@ public class CaseUtil {
 		Map<String, String> map = new HashMap<String, String>();
 		DecimalFormat decimalFormat = new DecimalFormat(
 				"###################.###########");
+		map.put("vin",ksd.getVin() );
 		map.put("name", ksd.getUsername());
 		map.put("car_type", ksd.getCartype() + "");
 		map.put("series_name", ksd.getCarseries());
@@ -85,15 +86,19 @@ public class CaseUtil {
 		map.put("vin", ksd.getVin().toUpperCase());// 大写车架号
 		map.put("purchase_tax",
 				decimalFormat.format(Double.parseDouble(ksd.getPurchase_tax())));
-		// map.put("gps_charge",decimalFormat.format(Double.parseDouble(
-		// ksd.getGps_charge())));
+
 		map.put("insurance",
 				decimalFormat.format(Double.parseDouble(ksd.getInsurance())));
-		// map.put("service_charge",decimalFormat.format(Double.parseDouble(ksd.getService_charge())));
-		// map.put("deduction", decimalFormat.format(ksd.getDeduction()));
-		// double
-		// toalcharge=ksd.getSqdk()+Double.parseDouble(ksd.getPurchase_tax())+Double.parseDouble(ksd.getInsurance())-ksd.getDeduction();
-		// map.put("toalcharge", ""+toalcharge);
+ 		 map.put("deduction", decimalFormat.format(ksd.getDeduction()));
+		 double  car_loan_charge=ksd.getSqdk()*10000;//车价贷款额
+		 map.put("car_loan_charge", ""+car_loan_charge);
+		 double toalcharge=car_loan_charge+Double.parseDouble(ksd.getPurchase_tax())+Double.parseDouble(ksd.getInsurance())-ksd.getDeduction();
+		 map.put("toalcharge", ""+toalcharge);//车价计算后钱
+/*		 System.out.println("car_loan_charge"+car_loan_charge);
+		 System.out.println("toto"+toalcharge);*/
+		 
+		 map.put("regist_type",""+ ksd.getRegisttype());
+		 map.put("pledge_type", ""+ksd.getPledge());
 		return map;
 	}
 

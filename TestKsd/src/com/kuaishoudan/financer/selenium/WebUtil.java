@@ -210,6 +210,10 @@ public class WebUtil {
 		// df(driver,By.linkText("客户")).click();
 		df(driver, By.linkText("已分配")).click();
 
+ 
+		WebUtil.df(driver,By.className("filtrate_text")).sendKeys(ksd.getUsername());//搜索名字
+		WebUtil.df(driver, By.linkText("筛选")).click();
+		
 		clickItem(driver, ksd.getLoginname());
 
 		Assert.assertEquals(UserDaoImpl.getFinanStatue_id(ksd),
@@ -233,6 +237,7 @@ public class WebUtil {
 
 		// df(driver,By.linkText("客户")).click();
 		df(driver, By.linkText("已录入")).click();
+		
 		clickItem(driver, ksd.getLoginname());
 
 		df(driver, By.linkText("通知审核结果")).click();

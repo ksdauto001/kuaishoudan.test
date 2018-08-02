@@ -185,6 +185,11 @@ public class TestDisagree {
 					});
 
 		} catch (org.openqa.selenium.TimeoutException e) {
+			int confirmsize=driver.findElements(By.id("com.kuaishoudan.financer:id/dialog_confirm")).size();//改权限
+			if(confirmsize==1){
+				driver.findElement(By.id("com.kuaishoudan.financer:id/dialog_confirm")).click();
+			}
+			Thread.sleep(200);
 
 			int acs = driver.findElements(
 					By.id("com.kuaishoudan.financer:id/btn_login")).size();
@@ -221,7 +226,7 @@ public class TestDisagree {
 					}
 				}
 				Thread.sleep(100);
-			int	tgk = driver.findElements(
+				int	tgk = driver.findElements(
 						By.id("com.kuaishoudan.financer:id/tv_guide_know"))
 						.size();
 
@@ -233,6 +238,8 @@ public class TestDisagree {
 				}
 			}
 
+		}catch (org.openqa.selenium.WebDriverException e) {
+			
 		}
 
 	}

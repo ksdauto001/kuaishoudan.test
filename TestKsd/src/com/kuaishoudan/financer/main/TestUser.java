@@ -192,6 +192,11 @@ public class TestUser {
 					});
 
 		} catch (org.openqa.selenium.TimeoutException e) {
+			int confirmsize=driver.findElements(By.id("com.kuaishoudan.financer:id/dialog_confirm")).size();//改权限
+			if(confirmsize==1){
+				driver.findElement(By.id("com.kuaishoudan.financer:id/dialog_confirm")).click();
+			}
+			Thread.sleep(200);
 
 			int acs = driver.findElements(
 					By.id("com.kuaishoudan.financer:id/btn_login")).size();
@@ -315,10 +320,12 @@ public class TestUser {
 		case "A":
 			ksd = TestA.testBCSQQK(driver, webdriver, ksd, devicename);
 			employes = UserDaoImpl.getSpNameid(ksd, 1);
+ 
 			break;
 		case "B":
 			ksd = TestB.testBCSQQK(driver, webdriver, ksd, devicename);
 			employes = UserDaoImpl.getSpNameid(ksd, 1);
+
 			break;
 		case "C":
 			ksd = TestC.testBCSQQK(driver, webdriver, ksd, devicename);
@@ -337,7 +344,7 @@ public class TestUser {
 			System.out.println("default");
 
 		}
-
+		WebSPUtil.assertQK(ksd,flow);
 	}
 	
 	// 请款审批同意专员
@@ -397,6 +404,7 @@ public class TestUser {
 				}
 				itename = ep.getUsername();
 				employes.remove(i);
+				WebSPUtil.assertQK2(ksd,flow);
 				break;
 			} else if (ep.getDesc().equals("请款审核组长")) {
 				System.out.println(ep.getUsername());
@@ -423,6 +431,7 @@ public class TestUser {
 
 				itename = ep.getUsername();
 				employes.remove(i);
+				WebSPUtil.assertQK2(ksd,flow);
 				break;
 			} else if (ep.getDesc().equals("BD经理")) {
 				System.out.println(ep.getUsername());
@@ -432,6 +441,8 @@ public class TestUser {
 				employes.remove(i);
 				break;
 			}
+
+			
 		}
 
 	}
