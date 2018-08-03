@@ -32,8 +32,11 @@ public class WebOrgan {
 			KSDCase ksd = RandomValue.getRandom();
 			ksd.setProduct("平安银行-那家店");// qita22-其他22产品1
 			ksd.setCartype(1);
-			WebUtil.login(driver, ksd);// 登录
+		/*	WebUtil.login(driver, ksd);// 登录
 			List<Integer> list = getImge1(driver, ksd);
+			WebUtil.logout(driver);*/
+			WebUtil.login(driver, ksd);// 登录
+			WebOrgan.getImge3(driver, ksd);//创建供应商归档图片
 			WebUtil.logout(driver);
 			Thread.sleep(25000);
 			driver.quit();
@@ -49,12 +52,12 @@ public class WebOrgan {
 
 	public static void test1(WebDriver driver, KSDCase ksd)
 			throws MalformedURLException, InterruptedException {
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-		driver.findElement(By.linkText("供应商")).click();
+		Thread.sleep(200);
+		WebUtil.df(driver, By.linkText("供应商")).click();
 		String sss = ksd.getProduct().split("-")[0];
 
 		driver.navigate().refresh();
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
+		Thread.sleep(200);
 
 		// List<WebElement> mask
 		// =driver.findElements(By.className("org_mask"));//org_mask
@@ -72,8 +75,7 @@ public class WebOrgan {
 
 				// System.out.println("ws" + ws.get(i).getText());
 				if (ws.get(i).getText().equals(sss)) {
-					driver.manage().timeouts()
-							.implicitlyWait(13, TimeUnit.SECONDS);
+				
 					Actions action = new Actions(driver);
 
 					action.moveToElement(ws.get(i)).perform();
@@ -83,8 +85,7 @@ public class WebOrgan {
 							.className("org_mask"));
 					// System.out.println("@===" + mask.size());
 					// mask.get(i).click();
-					driver.manage().timeouts()
-							.implicitlyWait(13, TimeUnit.SECONDS);
+		 
 					mask.get(i).findElement(By.tagName("a")).click();
 					break loop;
 				}
@@ -99,15 +100,15 @@ public class WebOrgan {
 
 	public static List<Integer> testJjzl(WebDriver driver, KSDCase ksd)
 			throws InterruptedException {
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
+		Thread.sleep(200);
 
 		WebElement titos = driver.findElement(By
 				.xpath("//ul[@class='tab_list inline_block']/li[2]"));// 进件资料
 		titos.click();
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
-		driver.findElement(By.id("editOrg_jump")).click();// 编辑
+
+		WebUtil.df(driver,By.id("editOrg_jump")).click();// 编辑
 		// swipeTodown(driver);
-		driver.manage().timeouts().implicitlyWait(23, TimeUnit.SECONDS);
+
 
 		/*
 		 * List<WebElement> checkalls=
@@ -161,11 +162,11 @@ public class WebOrgan {
 				}
 			}
 		}
-		Thread.sleep(1000);
+		Thread.sleep(500);
 
-		driver.findElement(By.linkText("保存")).click();// 保存
-		Thread.sleep(2000);
-		driver.findElement(By.linkText("确定")).click();// 确定
+		WebUtil.df(driver,By.linkText("保存")).click();// 保存
+		Thread.sleep(500);
+		WebUtil.df(driver,By.linkText("确定")).click();// 确定
 
 		return list1;
 
@@ -173,15 +174,15 @@ public class WebOrgan {
 
 	public static List<Integer> testQkzl(WebDriver driver, KSDCase ksd)
 			throws InterruptedException {
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
+		Thread.sleep(500);
 
 		WebElement titos = driver.findElement(By
 				.xpath("//ul[@class='tab_list inline_block']/li[3]"));// 请款资料
 		titos.click();
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
+
 		driver.findElement(By.id("editOrg_jump")).click();// 编辑
 		// swipeTodown(driver);
-		driver.manage().timeouts().implicitlyWait(23, TimeUnit.SECONDS);
+
 
 		/*
 		 * List<WebElement> checkalls=
@@ -222,7 +223,7 @@ public class WebOrgan {
 			}
 		}
 		// driver.findElements(By.className("must_send")).get(1).click();//必填
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		for (int k = 0; k < ws.size(); k++) {
 			String labels = ws.get(k).getAttribute("for");
 			// System.out.println(labels);
@@ -235,24 +236,23 @@ public class WebOrgan {
 				}
 			}
 		}
-		driver.findElement(By.linkText("保存")).click();// 保存
-		Thread.sleep(2000);
-		driver.findElement(By.linkText("确定")).click();// 确定
+		WebUtil.df(driver,By.linkText("保存")).click();// 保存
+		Thread.sleep(1000);
+		WebUtil.df(driver,By.linkText("确定")).click();// 确定
 		return list1;
 
 	}
 
 	public static List<Integer> testQdzl(WebDriver driver, KSDCase ksd)
 			throws InterruptedException {
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
 
+		Thread.sleep(500);
 		WebElement titos = driver.findElement(By
 				.xpath("//ul[@class='tab_list inline_block']/li[4]"));// 归档资料
 		titos.click();
-		driver.manage().timeouts().implicitlyWait(13, TimeUnit.SECONDS);
+		Thread.sleep(200);
 		driver.findElement(By.id("editOrg_jump")).click();// 编辑
 		// swipeTodown(driver);
-		driver.manage().timeouts().implicitlyWait(23, TimeUnit.SECONDS);
 
 		/*
 		 * List<WebElement> checkalls=
@@ -281,18 +281,18 @@ public class WebOrgan {
 
 			}
 		}
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		for (int i = 0; i < 6; i++) {
 			driver.findElements(By.className("must_nosend")).get(i).click();// 非必填
 		}
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		for (Integer musttype : list1) {
 			if (musttype < 9) {
 				driver.findElements(By.className("must_send")).get(musttype)
 						.click();// 必填
 			}
 		}
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		for (int k = 0; k < ws.size(); k++) {
 			String labels = ws.get(k).getAttribute("for");
 			// System.out.println(labels);
@@ -305,18 +305,19 @@ public class WebOrgan {
 				}
 			}
 		}
-		driver.findElement(By.linkText("保存")).click();// 保存
-		Thread.sleep(2000);
-		driver.findElement(By.linkText("确定")).click();// 确定
+		WebUtil.df(driver,By.linkText("保存")).click();// 保存
+		Thread.sleep(1000);
+		WebUtil.df(driver,By.linkText("确定")).click();// 确定
 
 		return list1;
 	}
 
 	public static void swipeTodown(WebDriver driver) {
-		driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
+		try {
+		Thread.sleep(300);
 		((JavascriptExecutor) driver)
 				.executeScript("window.scrollTo(0, document.body.scrollHeight)"); // 向下滑动
-		try {
+	
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

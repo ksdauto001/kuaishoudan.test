@@ -61,12 +61,15 @@ public class TestDisagree {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		TestDisagree ct = new TestDisagree();
-		ct.setUp();//  启动
+
+		ct.setUp();// 启动
 		int count = ct.getCount();
 		for (int i = 0; i < count; i++) {
 			long startTime = System.currentTimeMillis(); // 获取开始时间
 			ct.dfp(i);// 待分配app
 			switch (ksd.getInit_statue()) {
+			case 0:
+				break;
 			case 1:
 				ct.webYfp();// 已分配
 				break;
@@ -481,7 +484,7 @@ public class TestDisagree {
 	public void sp6() {
 
 		// ksd = WebSPUtil.testSP6(webdriver, ksd); // 请款审批同意专员
-		AppSPUtil.sp6App(driver, ksd);
+		AppSPUtil.sp6App(driver,webdriver, ksd);
 
 	}
 

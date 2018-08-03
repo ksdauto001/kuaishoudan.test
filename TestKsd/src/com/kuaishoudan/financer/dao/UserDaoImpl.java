@@ -371,18 +371,19 @@ public class UserDaoImpl {
  
 				map.put("insurance", decimalFormat.format(Double.parseDouble(rs
 						.getString("insurance"))));
- 
-				 map.put("deduction",
-				  decimalFormat.format(Double.parseDouble(rs
-				  .getString("deduction"))));
-			
+		 
+				if (!(ksd.getDeduction() == 0)) {
+				 
+					 map.put("deduction",
+							  decimalFormat.format(Double.parseDouble(rs
+							  .getString("deduction"))));	
 				map.put("car_loan_charge", ""+rs.getDouble("car_loan_charge"));//车价贷款额
 				 double toalcharge=rs.getDouble("car_loan_charge")+rs.getDouble("insurance")+rs.getDouble("purchase_tax")-rs.getDouble("deduction");
 				map.put("toalcharge", decimalFormat.format(toalcharge));//车价计算后
 /*				 System.out.println("1car_loan_charge"+rs.getDouble("car_loan_charge"));
 				 System.out.println("1toto"+decimalFormat.format(toalcharge));*/
 				
-				 
+				} 
 				 map.put("regist_type",rs.getString("regist_type"));
 				 map.put("pledge_type", rs.getString("pledge_type" ));
 			}

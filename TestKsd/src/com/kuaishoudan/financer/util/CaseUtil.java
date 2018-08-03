@@ -2,6 +2,8 @@ package com.kuaishoudan.financer.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -89,14 +91,20 @@ public class CaseUtil {
 
 		map.put("insurance",
 				decimalFormat.format(Double.parseDouble(ksd.getInsurance())));
+		if (!(ksd.getDeduction() == 0)) {
  		 map.put("deduction", decimalFormat.format(ksd.getDeduction()));
-		 double  car_loan_charge=ksd.getSqdk()*10000;//车价贷款额
+		 double  car_loan_charge =ksd.getSqdk()*10000;//车价贷款额
+		 BigDecimal car_loan =new BigDecimal( car_loan_charge );
+		 car_loan_charge= car_loan .setScale(2, RoundingMode.HALF_UP).doubleValue();
 		 map.put("car_loan_charge", ""+car_loan_charge);
-		 double toalcharge=car_loan_charge+Double.parseDouble(ksd.getPurchase_tax())+Double.parseDouble(ksd.getInsurance())-ksd.getDeduction();
+		 BigDecimal deductiondecimal=new BigDecimal( ksd.getDeduction() );
+		 double deduction= deductiondecimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
+		 double toalcharge=car_loan_charge+Double.parseDouble(ksd.getPurchase_tax())+Double.parseDouble(ksd.getInsurance())-deduction;
 		 map.put("toalcharge", ""+toalcharge);//车价计算后钱
-/*		 System.out.println("car_loan_charge"+car_loan_charge);
-		 System.out.println("toto"+toalcharge);*/
-		 
+		 System.out.println("car_loan_charge"+car_loan_charge);
+		 System.out.println("toalcharge"+toalcharge);
+		 System.out.println("deduction"+deduction);
+		}
 		 map.put("regist_type",""+ ksd.getRegisttype());
 		 map.put("pledge_type", ""+ksd.getPledge());
 		return map;

@@ -55,6 +55,10 @@ public class JdbcUtils {
 				// System.out.println("B+!!!!!!!!");
 				url2 = "jdbc:mysql://rm-2ze7vfrx833b858d1do.mysql.rds.aliyuncs.com:3306/zhihjf_test2?characterEncoding=utf8";
 				break;
+			case "pre":
+				// System.out.println("B+!!!!!!!!");
+				url2 = "jdbc:mysql://rm-2ze7vfrx833b858d1do.mysql.rds.aliyuncs.com:3306/zhihjf_pre?characterEncoding=utf8";
+				break;
 
 			default:
 				System.out.println("default");

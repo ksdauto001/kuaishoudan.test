@@ -275,7 +275,7 @@ public class TestA {
 	public void sp6() {
 
 		ksd = WebSPUtil.testSP6(webdriver, ksd); // 请款审批同意专员
-		AppSPUtil.sp6App(driver, ksd);
+		AppSPUtil.sp6App(driver,webdriver, ksd);
 
 	}
 
@@ -296,7 +296,11 @@ public class TestA {
 	// 不出合同申请请款
 	public static KSDCase testBCSQQK(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, KSDCase ksd, String devicename) {
-
+		if(ksd.getInit_statue()==100){
+		WebUtil.login(webdriver, ksd );// 登录
+		 WebOrgan.getImge2(webdriver, ksd);//创建供应商请款图片
+		WebUtil.logout(webdriver);
+		}
 		int aa = 0, countImg = 0;
 		List<Integer> list2 = ksd.getImgtypes();
 		List<Integer> list3 = UserDaoImpl.getOMaterial(ksd, 2);

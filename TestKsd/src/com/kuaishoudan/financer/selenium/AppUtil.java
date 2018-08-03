@@ -574,6 +574,13 @@ public class AppUtil {
 				
 				df(driver, By.id("com.kuaishoudan.financer:id/edit_remark"))
 				.sendKeys(ksd.getRemark());// 备注
+				if(ksd.getInit_statue()==100){
+					WebUtil.login(webdriver, ksd);// 登录
+					 WebOrgan.getImge1(webdriver, ksd);//创建供应商图片
+
+					WebUtil.logout(webdriver);
+					
+				}
 				df(driver, By.id("com.kuaishoudan.financer:id/toolbar_next"))
 						.click();// 下一步
 
@@ -865,7 +872,12 @@ public class AppUtil {
 
 				df(driver, By.id("com.kuaishoudan.financer:id/edit_remark"))
 						.sendKeys(ksd.getRemark());// 备注
-				
+				if(ksd.getInit_statue()==100){
+				WebUtil.login(webdriver, ksd);// 登录
+				 WebOrgan.getImge1(webdriver, ksd);//创建供应商图片
+
+				WebUtil.logout(webdriver);
+				}
 				df(driver, By.id("com.kuaishoudan.financer:id/toolbar_next"))
 						.click();// 下一步
 
@@ -991,7 +1003,7 @@ public class AppUtil {
 	public static int zcjj(AndroidDriver<WebElement> driver, KSDCase ksd) {
 
 		try {
-			Thread.sleep(200);
+			Thread.sleep(300);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -999,6 +1011,7 @@ public class AppUtil {
 
 
 		int a = UserDaoImpl.getUser_Count(ksd);
+		System.out.println("a"+a);
 		if (a == 1) {
 			
 			df(driver, By.id("com.kuaishoudan.financer:id/text_name")).click();// 首页列表
@@ -1010,11 +1023,14 @@ public class AppUtil {
 					By.id("com.kuaishoudan.financer:id/text_customer_algin_jinjian"))
 					.click(); // 大于1次进件
 
-		}else if(a==2){
-			df(driver, By.id("com.kuaishoudan.financer:id/text_name")).click();// 首页列表
-			df(driver, By.id("com.kuaishoudan.financer:id/btn_add_loan"))
-			.click();// 第3次进件3
 		}else {
+			df(driver, By.id("com.kuaishoudan.financer:id/text_name")).click();// 首页列表
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			df(driver, By.id("com.kuaishoudan.financer:id/btn_add_loan"))
 					.click();// 第3次进件3
 
@@ -1022,7 +1038,46 @@ public class AppUtil {
 
 		return a;
 	}
+	// 再次进件
+		public static int zcjj2(AndroidDriver<WebElement> driver, KSDCase ksd) {
 
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+			int a = UserDaoImpl.getUser_Count(ksd);
+			System.out.println("a"+a);
+			if (a == 2&&(ksd.getInit_statue()<4)) {
+				
+				df(driver, By.id("com.kuaishoudan.financer:id/text_name")).click();// 首页列表
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				df(driver, By.id("com.kuaishoudan.financer:id/btn_add_loan"))
+						.click();// 第3次进件3
+
+			}else {
+			
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				df(driver, By.id("com.kuaishoudan.financer:id/btn_add_loan"))
+						.click();// 第3次进件3
+
+			}
+
+			return a;
+		}
 	/**
 	 * 上传照片
 	 * 
@@ -1270,11 +1325,16 @@ public class AppUtil {
 	public static KSDCase addZjjtest(AndroidDriver<WebElement> driver,
 			WebDriver webdriver, String devicename, int i, KSDCase ksd) {
 		int gq = 0;
-		if (i == 0||i==1) {
+	//	System.out.println(i);
+		if (i == 0 ) {
 			ksd = RandomValue.getKSD(driver);
 			ksd = RandomValue.getRandom(driver, ksd);
 			AppUtil.zcjj(driver, ksd);
-		} else {
+		} else if(i==1&&(ksd.getInit_statue()<4)){
+//s			ksd = RandomValue.getKSD(driver);
+			ksd = RandomValue.getRandom(driver, ksd);
+			AppUtil.zcjj2(driver, ksd);
+		}else {
 			ksd = RandomValue.getRandom(driver, ksd);
 			df(driver, By.id("com.kuaishoudan.financer:id/btn_add_loan"))
 					.click();// 第3次进件qi

@@ -67,6 +67,8 @@ public class TestUser {
 			long startTime = System.currentTimeMillis(); // 获取开始时间
 			ct.dfp(i);// 待分配app
 			switch (ksd.getInit_statue()) {
+			case 0:
+				break;
 			case 1:
 				ct.webYfp();// 已分配
 				break;
@@ -145,6 +147,16 @@ public class TestUser {
 				ct.zxSp();//审批杂项
 				break;
 			default:
+				ct.webDksp();// 已录
+				ct.appBsqht();// App不申请合同-申请请款
+				ct.sp1();
+				ct.sp2();
+				ct.sp3();
+				ct.sp4();
+				ct.sp5();
+				ct.sp6();
+				ct.sp7();
+				ct.zxSp();//审批杂项
 			}
 			long endTime = System.currentTimeMillis(); // 获取结束时间
 
@@ -305,6 +317,7 @@ public class TestUser {
 	 * web
 	 */
 	public void webDksp() {
+		
 		WebUtil.login(webdriver, ksd);// 登录
 		WebUtil.testDFP(webdriver, ksd);// 待分配
 		WebUtil.testYFP(webdriver, ksd);// 已分配
@@ -510,7 +523,7 @@ public class TestUser {
 	public void sp6() {
 
 		// ksd = WebSPUtil.testSP6(webdriver, ksd); // 请款审批同意专员
-		AppSPUtil.sp6App(driver, ksd);
+		AppSPUtil.sp6App(driver, webdriver,ksd);
 
 	}
 

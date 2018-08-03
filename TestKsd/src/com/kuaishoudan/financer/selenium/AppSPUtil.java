@@ -727,8 +727,13 @@ public class AppSPUtil {
 
 	}
 
-	public static void sp6App(AndroidDriver<WebElement> driver, KSDCase ksd) {
+	public static void sp6App(AndroidDriver<WebElement> driver,WebDriver webdriver, KSDCase ksd) {
 
+		if(ksd.getInit_statue()==100){
+			WebUtil.login(webdriver, ksd);// 登录
+			WebOrgan.getImge3(webdriver, ksd);//创建供应商归档图片
+			WebUtil.logout(webdriver);
+		}
 		if (ksd.getCommit_type() == 2) {
 			AppUtil.df(driver,
 					By.id("com.kuaishoudan.financer:id/text_product")).click();// 常规产品列表
