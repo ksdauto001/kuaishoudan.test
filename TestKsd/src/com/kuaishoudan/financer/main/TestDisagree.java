@@ -61,8 +61,7 @@ public class TestDisagree {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		TestDisagree ct = new TestDisagree();
-
-		ct.setUp();// 启动
+		ct.setUp();//  启动
 		int count = ct.getCount();
 		for (int i = 0; i < count; i++) {
 			long startTime = System.currentTimeMillis(); // 获取开始时间

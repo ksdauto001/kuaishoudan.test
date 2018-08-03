@@ -25,7 +25,7 @@ import com.kuaishoudan.financer.util.RandomValue;
 public class TestShop {
 
 	/**
-	 * 创建商户
+	 * 创建商户2323
 	 * @param args
 	 */
 
