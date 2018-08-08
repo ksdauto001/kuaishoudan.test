@@ -53,6 +53,25 @@ public class KSDCase {
 	int zxsp;//杂项审批
 	List<Integer> imgtypes;
 	RequestPayout requestpayout;
+	//#######mgc
+	String mgccar_phone;
+	String mgccar_pwd;
+	
+	public String getMgccar_pwd() {
+		return mgccar_pwd;
+	}
+
+	public void setMgccar_pwd(String mgccar_pwd) {
+		this.mgccar_pwd = mgccar_pwd;
+	}
+
+	public String getMgccar_phone() {
+		return mgccar_phone;
+	}
+
+	public void setMgccar_phone(String mgccar_phone) {
+		this.mgccar_phone = mgccar_phone;
+	}
 
 	public int getZx() {
 		return zx;

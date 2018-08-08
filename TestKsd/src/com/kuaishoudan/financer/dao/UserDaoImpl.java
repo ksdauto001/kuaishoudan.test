@@ -58,6 +58,7 @@ public class UserDaoImpl {
 		ksd.setCartype(0);
 		// getLoanname(ksd);
 		ksd.setProduct("平安银行-简易贷及常规产品一区");// 浩天国际
+		ksd.setZx(1);
 		// int aa=getRisk_type(ksd);
 		/*
 		 * List<Integer> ssf=getOMaterial2(ksd,1); for(int
@@ -65,18 +66,18 @@ public class UserDaoImpl {
 		 * 
 		 * System.out.println("@@@" +ssf.size());
 		 */
-		/*
-		 * List<Employee> list= getSpNameid(ksd,1); for(int
-		 * i=0;i<list.size();i++){
-		 * System.out.println(list.get(i).getUsername()+","
-		 * +list.get(i).getAccount()+list.get(i).getDesc()); }
-		 */
+		
+/*		 List<Employee> list= getSpNameid(ksd,1); for(int
+		  i=0;i<list.size();i++){
+		  System.out.println(list.get(i).getUsername()+","
+		  +list.get(i).getAccount()+list.get(i).getDesc()); }*/
+		 
 		//int faf = getUser_Count(ksd);
-	/*	List<Employee> fsds=getSpZxName(ksd);
+		List<Employee> fsds=getSpZxName(ksd);
 		for(int i=0;i<fsds.size();i++)
-		System.out.println(fsds.get(i).getAccount());*/
-	int asd=	UserDaoImpl.getAdvanceStatue_id(ksd);
-	System.out.println(asd+"asd");
+		System.out.println(fsds.get(i).getAccount());
+/*	int asd=	UserDaoImpl.getAdvanceStatue_id(ksd);
+	System.out.println(asd+"asd");*/
 	}
 
 	public static KSDCase getCustomer_KSD(String name) {
@@ -686,9 +687,9 @@ public class UserDaoImpl {
 		List<Integer> list2 = new ArrayList<Integer>();
 		List<Employee> list = new ArrayList<Employee>();
 		String repos = "";
-		String sql = "select responsible from tb_workflow  tbw  where applyto_city=100 and status=1 and  is_throw=0  and risk_type=? and applyto_business=?;";
-		String sql2 = "select  tbe.`name`,tbe.account ,tbe.position_desc from  tb_employee tbe where    id in  (?)";
-
+		//String sql = "select responsible from tb_workflow  tbw  where applyto_city=100 and status=1 and  is_throw=0  and risk_type=? and applyto_business=?;";
+		//String sql2 = "select  tbe.`name`,tbe.account ,tbe.position_desc from  tb_employee tbe where    id in  (?)";
+		String sql="select tbe.`name`,tbe.account ,tbe.position_desc  from tb_workflow  tbw  ,tb_employee tbe where tbw.applyto_city=100 and tbw.status=1 and  tbw.is_throw=0  and tbw.risk_type=? and tbw.applyto_business=? and   FIND_IN_SET(tbe.id, tbw.responsible)";;
 		DBUtil util = new DBUtil();
 		Connection conn = util.openConnection();
 		ResultSet rs = null;
@@ -703,41 +704,18 @@ public class UserDaoImpl {
 			String ff = "";
 			while (rs.next()) {
 
-				ff = rs.getString("responsible");
-				// list2.add(ff);
-				// System.out.println(ff);
-				String[] ss2 = ff.split(",");
-
-				for (String ss : ss2) {
-					int ss1 = Integer.parseInt(ss);
-					list2.add(ss1);
-
-				}
-
+				String name = rs.getString("name");
+				String account = rs.getString("account");
+				String desc = rs.getString("position_desc");
+				// System.out.println(account);
+				Employee ep = new Employee();
+				ep.setUsername(name);
+				ep.setAccount(account);
+				ep.setDesc(desc);
+				list.add(ep);
 			}
 
-			// System.out.println(list2.toString());
-			for (int k = 0; k < list2.size(); k++) {
-				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-				pstmt2.setString(1, "" + list2.get(k));
-				ResultSet rs2 = pstmt2.executeQuery();
-
-				while (rs2.next()) {
-
-					String name = rs2.getString("name");
-					String account = rs2.getString("account");
-					String desc = rs2.getString("position_desc");
-					// System.out.println(account);
-					Employee ep = new Employee();
-					ep.setUsername(name);
-					ep.setAccount(account);
-					ep.setDesc(desc);
-					list.add(ep);
-				}
-			}
-			// pstmt2.setInt(1, s);
-
-			// list2.retainAll(list1);
+		
 		} catch (SQLException e) {
 			//System.out.println(e);
 			e.printStackTrace();
@@ -780,8 +758,8 @@ public class UserDaoImpl {
 		default:
 			System.out.println("default");
 		}
-		String sql = "  select responsible from tb_workflow  tbw  where applyto_city=100 and status=1 and   applyto_business=? and type=2   and name=?; ";
-		String sql2 ="select  tbe.`name`,tbe.account ,tbe.position_desc from  tb_employee tbe where    id in  (?)";
+
+		String sql="select tbe.`name`,tbe.account ,tbe.position_desc from tb_workflow  tbw,  tb_employee tbe where tbw.applyto_city=100 and tbw.status=1 and   tbw.applyto_business=? and type=2   and tbw.name=? and FIND_IN_SET(tbe.id, tbw.responsible) ";
 		DBUtil util = new DBUtil();
 		Connection conn = util.openConnection();
 		ResultSet rs = null;
@@ -798,42 +776,20 @@ public class UserDaoImpl {
 			rs = pstmt.executeQuery();
 			String ff="";
 			while (rs.next()) {
-
-
-				ff = rs.getString("responsible");
-				// list2.add(ff);
-				// System.out.println(ff);
-				String[] ss2 = ff.split(",");
-
-				for (String ss : ss2) {
-					int ss1 = Integer.parseInt(ss);
-					list2.add(ss1);
-
-				}
+				String name = rs.getString("name");
+				String account = rs.getString("account");
+				String desc = rs.getString("position_desc");
+				// System.out.println(account);
+				Employee ep = new Employee();
+				ep.setUsername(name);
+				ep.setAccount(account);
+				ep.setDesc(desc);
+				list.add(ep);
 
 			
 			}
 			
-			for (int k = 0; k < list2.size(); k++) {
-				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-				pstmt2.setString(1, "" + list2.get(k));
-				ResultSet rs2 = pstmt2.executeQuery();
-
-				while (rs2.next()) {
-
-					String name = rs2.getString("name");
-					String account = rs2.getString("account");
-					String desc = rs2.getString("position_desc");
-					// System.out.println(account);
-					Employee ep = new Employee();
-					ep.setUsername(name);
-					ep.setAccount(account);
-					ep.setDesc(desc);
-					list.add(ep);
-
-		 
-				}
-			}
+	
 		} catch (SQLException e) {
 			//System.out.println(e);
 			e.printStackTrace();

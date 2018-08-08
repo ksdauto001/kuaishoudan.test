@@ -38,6 +38,15 @@ public class DBUtil {
 		// JdbcUtils.release(rs, stmt, conn);
 
 	}
+	public void closeConn(Connection conn ) {
+
+		conn1 = conn;
+		ds.addBackToPool(conn);
+		// System.out.println("使用完 后将连接 放回 连接池中");
+		// 释放 资源 并 不将连接 释放
+		// JdbcUtils.release(rs, stmt, conn);
+
+	}
 
 	public void closeConn1() {
 

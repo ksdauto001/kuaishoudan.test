@@ -315,21 +315,22 @@ public class AppUtil {
 			df(driver, By.id("com.kuaishoudan.financer:id/edit_phone"))
 					.sendKeys(ksd.getPhone()); // 手机
 
-			df(driver, By.id("com.kuaishoudan.financer:id/text_id_type"))
-					.click();// 点击身份证
+			
 
 			if (ksd.getIdentitytype() == 1) {
-				// 点击身份证
+/*				// 点击身份证
 				dfs(driver, By.id("com.kuaishoudan.financer:id/text_select"))
-						.get(1).click();
+						.get(1).click();*/
 				// 证件号码 *****
 				df(driver, By.id("com.kuaishoudan.financer:id/edit_id_code"))
 						.sendKeys(ksd.getIdentitynum());
 			} else if (ksd.getIdentitytype() == 2) {
-				// 点击军官证
+				df(driver, By.id("com.kuaishoudan.financer:id/text_id_type"))
+				.click();// 点击身份证
+	
 
 				dfs(driver, By.id("com.kuaishoudan.financer:id/text_select"))
-						.get(2).click();
+						.get(2).click();			// 点击军官证
 				// 证件号码 *****
 				df(driver, By.id("com.kuaishoudan.financer:id/edit_id_code"))
 						.sendKeys(ksd.getJgid());

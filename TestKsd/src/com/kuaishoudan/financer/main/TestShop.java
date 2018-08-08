@@ -13,7 +13,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.kuaishoudan.financer.bean.KSDCase;
-import com.kuaishoudan.financer.bean.ShopBeanCase;
+
+import com.kuaishoudan.financer.bean.ShopCase;
 import com.kuaishoudan.financer.selenium.AppSPUtil;
 import com.kuaishoudan.financer.selenium.AppShopUtil;
 import com.kuaishoudan.financer.selenium.AppUtil;
@@ -34,7 +35,7 @@ public class TestShop {
 	public WebDriver webdriver;
 	KSDCase ksd = null;
 	DBUtil db = null;
-	ShopBeanCase shopBeanCase = new ShopBeanCase();
+	ShopCase shopBeanCase = new ShopCase();
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub

@@ -8,7 +8,8 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
-import com.kuaishoudan.financer.bean.ShopBeanCase;
+
+import com.kuaishoudan.financer.bean.ShopCase;
 
 public class AppShopUtil {
 
@@ -21,8 +22,8 @@ public class AppShopUtil {
 	}
 
 	// 新建商户以及备案信息
-	public static ShopBeanCase createShop(AndroidDriver<WebElement> driver,
-			ShopBeanCase shopBeanCase, String devicename) throws Exception {
+	public static ShopCase createShop(AndroidDriver<WebElement> driver,
+			ShopCase shopBeanCase, String devicename) throws Exception {
 
 		AppUtil.df(driver, By.id("com.kuaishoudan.financer:id/toolbar_menu"))
 				.click();// 点击出左边的弹框
