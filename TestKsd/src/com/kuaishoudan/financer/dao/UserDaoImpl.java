@@ -597,7 +597,7 @@ public class UserDaoImpl {
 		List<Integer> list2 = new ArrayList<Integer>();
 
 		String sql = "select tom.data_id from  tb_organization_material tom  where "
-				+ "tom.organization_id=(select min(id) from zhihjf_pre.tb_organization where name =?  and company_id=1000 )   "
+				+ "tom.organization_id=(select min(id) from tb_organization where name =?  and company_id=1000 )   "
 				+ "  and tom.material_type=? and tom.is_must=1 and tom.car_type=? ;";
 		DBUtil util = new DBUtil();
 		Connection conn = util.openConnection();
@@ -642,7 +642,7 @@ public class UserDaoImpl {
 		List<Integer> list2 = new ArrayList<Integer>();
 
 		String sql = "select tom.data_id from  tb_organization_material tom  where  "
-				+ "tom.organization_id=(select min(id) from zhihjf_pre.tb_organization where name =?  and company_id=1000 ) "
+				+ "tom.organization_id=(select min(id) from  tb_organization where name =?  and company_id=1000 ) "
 				+ "  and tom.material_type=? and tom.is_must=0 and tom.car_type=? ;";
 		DBUtil util = new DBUtil();
 		Connection conn = util.openConnection();
